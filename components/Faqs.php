@@ -1,9 +1,11 @@
-<?php namespace Aic\Faq\Components;
-use Cms\Classes\ComponentBase;
+<?php
 
-use Lang;
+namespace Aic\Faq\Components;
+
 use Aic\Faq\Models\Categories;
 use Aic\Faq\Models\Faqs as Faq;
+use Cms\Classes\ComponentBase;
+use Illuminate\Support\Facades\Lang;
 
 class Faqs extends ComponentBase
 {
@@ -113,7 +115,6 @@ class Faqs extends ComponentBase
 
     protected function getFAQs()
     {
-        
         $faqs = Faq::listFrontEnd([
             'sort'         => $this->property('sort'),
             'categoryId'   => (int) $this->property('categoryId'),
@@ -128,7 +129,6 @@ class Faqs extends ComponentBase
 
     protected function faqsPerCategory($faqs)
     {
-
         // get properties
         $categoryId = (int) $this->property('categoryId');
         $sort = $this->property('sort');
@@ -190,7 +190,6 @@ class Faqs extends ComponentBase
             return $newArray;
 
         }
-
     }
 
     protected function getCategoryName($categoryId)

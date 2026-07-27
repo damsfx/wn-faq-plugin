@@ -1,10 +1,17 @@
-<?php namespace Aic\Faq;
+<?php
+
+namespace Aic\Faq;
+
+use Backend\Facades\Backend;
 use System\Classes\PluginBase;
 
-use Backend;
-
-class Plugin extends PluginBase {
-
+class Plugin extends PluginBase
+{
+    /**
+     * Returns information about this plugin.
+     *
+     * @return array
+     */
     public function pluginDetails()
     {
         return [
@@ -15,9 +22,11 @@ class Plugin extends PluginBase {
         ];
     }
 
-    public function registerNavigation()
+    /**
+     * Register the backend navigation items provided by this plugin
+     */
+    public function registerNavigation(): array
     {
-
         return [
             'faq' => [
                 'label'       => 'aic.faq::lang.menu.faqs',
@@ -44,7 +53,10 @@ class Plugin extends PluginBase {
         ];
     }
 
-    public function registerPermissions()
+    /**
+     * Register the permissions provided by this plugin
+     */
+    public function registerPermissions(): array
     {
         return [
             'aic.faq.*' => [
@@ -54,11 +66,13 @@ class Plugin extends PluginBase {
         ];
     }
 
-    public function registerComponents()
+    /**
+     * Register the CMS components provided by this plugin
+     */
+    public function registerComponents(): array
     {
         return [
             'Aic\Faq\Components\Faqs' => 'FAQ'
         ];
     }
-    
 }
