@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - psr-fix
   pull_request:
 
 jobs:
