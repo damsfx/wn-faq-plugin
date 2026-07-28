@@ -3,9 +3,9 @@
 Create Frequently Asked Questions with ease!  
 These can be translated if you are using [Winter.Translate](https://github.com/wintercms/wn-translate-plugin).
 
-![FAQ list](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/faq_list.jpg?raw=true)
+![FAQ list](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/assets/faq_list.jpg?raw=true)
 
-![FAQ editing](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/faq_edit.jpg?raw=true)
+![FAQ editing](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/assets/faq_edit.jpg?raw=true)
 
 ## Features
 
