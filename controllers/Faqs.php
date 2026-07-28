@@ -1,7 +1,9 @@
-<?php namespace Aic\Faq\Controllers;
-use Backend\Classes\Controller;
+<?php
 
-use BackendMenu;
+namespace Aic\Faq\Controllers;
+
+use Backend\Classes\Controller;
+use Backend\Facades\BackendMenu;
 
 class Faqs extends Controller
 {
