@@ -1,19 +1,49 @@
-<?php namespace Aic\Faq\Components;
-use Cms\Classes\ComponentBase;
+<?php
 
-use Lang;
+namespace Aic\Faq\Components;
+
 use Aic\Faq\Models\Categories;
 use Aic\Faq\Models\Faqs as Faq;
+use Cms\Classes\ComponentBase;
+use Illuminate\Support\Facades\Lang;
+use Winter\Storm\Database\Collection;
 
 class Faqs extends ComponentBase
 {
-    public $faqs;
-    public $faqsPerCategory;
-    public $isSearch;
-    public $searchLabel;
-    public $searchPlaceholder;
-    public $minSearchResults;
-    public $searchQuery;
+    /**
+     * A collection of faqs to display
+     */
+    public Collection|null $faqs;
+
+    /**
+     * Array of faq grouped by category
+     */
+    public array $faqsPerCategory;
+
+    /**
+     * Whether to show the search form
+     */
+    public bool $isSearch;
+
+    /**
+     * Search label
+     */
+    public string $searchLabel;
+
+    /**
+     * Search placeholder
+     */
+    public string $searchPlaceholder;
+
+    /**
+     * Minimum number of FAQs to show the search form
+     */
+    public int $minSearchResults;
+
+    /**
+     * The search query
+     */
+    public string $searchQuery;
 
     public function componentDetails()
     {
@@ -81,54 +111,60 @@ class Faqs extends ComponentBase
     public function onRun()
     {
         $this->prepareVars();
+
         $this->faqs = $this->getFAQs();
         $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);
         $this->minSearchResults = $this->showSearch();
     }
 
+    /**
+     * Prepare variables for the component
+     */
     protected function prepareVars()
     {
-        $this->isSearch = (int) $this->property('isSearch');
+        $this->isSearch = (bool) $this->property('isSearch');
         $this->searchLabel = Lang::get('aic.faq::lang.component.settings.search.button_label');
         $this->searchPlaceholder = Lang::get('aic.faq::lang.component.settings.search.input_placeholder');
-        $this->searchQuery = trim(input('q'));
+        $this->searchQuery = (string) trim(input('q'));
     }
 
-    protected function showSearch()
+
+    protected function showSearch(): bool
     {
         $minResults = (int) $this->property('minSearchResults');
 
         $faqsWithoutSearch = Faq::listFrontEnd([
-            'sort'         => $this->property('sort'),
             'categoryId'   => (int) $this->property('categoryId'),
             'isFeatured'   => (int) $this->property('isFeatured'),
-            'isSearch'     => (int) $this->property('isSearch'),
-            'isTranslated' => (int) $this->property('isTranslated'),
-            'searchQuery'  => ''
+            'isSearch'     => (bool) $this->property('isSearch'),
+            'isTranslated' => (int) $this->property('isTranslated')
         ])->count();
 
-        if ($faqsWithoutSearch >= $minResults) return true;
-        else return false;
+        if ($faqsWithoutSearch >= $minResults) {
+            return true;
+        }
+        return false;
     }
 
-    protected function getFAQs()
+    /**
+     * Get the FAQs based on the component properties
+     */
+    protected function getFAQs(): Collection
     {
-        
         $faqs = Faq::listFrontEnd([
             'sort'         => $this->property('sort'),
             'categoryId'   => (int) $this->property('categoryId'),
             'isFeatured'   => (int) $this->property('isFeatured'),
-            'isSearch'     => (int) $this->property('isSearch'),
+            'isSearch'     => (bool) $this->property('isSearch'),
             'isTranslated' => (int) $this->property('isTranslated'),
-            'searchQuery'  => trim(input('q'))
+            'searchQuery'  => $this->searchQuery
         ]);
 
         return $faqs;
     }
 
-    protected function faqsPerCategory($faqs)
+    protected function faqsPerCategory(Collection $faqs): array
     {
-
         // get properties
         $categoryId = (int) $this->property('categoryId');
         $sort = $this->property('sort');
@@ -138,7 +174,6 @@ class Faqs extends ComponentBase
 
         // if category name is not 0 (all)
         if ($categoryName != 0) {
-
             // return the FAQs with their category
             return [
                 [
@@ -146,9 +181,7 @@ class Faqs extends ComponentBase
                     'faqs' => $faqs
                 ]
             ];
-
         } else {
-
             // create new array
             $newArray = [];
 
@@ -156,13 +189,13 @@ class Faqs extends ComponentBase
             $categories = [];
             if ($sort == 'category_id asc') {
                 $categories = Categories::orderBy('id', 'asc')->get();
-            } else if ($sort == 'category_id desc') {
+            } elseif ($sort == 'category_id desc') {
                 $categories = Categories::orderBy('id', 'desc')->get();
             } else {
                 $categories = Categories::get();
             }
-           
-            foreach($categories as $category) {
+
+            foreach ($categories as $category) {
                 $newArray[$category->id] = [
                     'categoryName' => $category->name,
                     'faqs' => []
@@ -183,20 +216,23 @@ class Faqs extends ComponentBase
             // remove empty categories
             foreach ($newArray as $key => $value) {
                 $amountFaqs = count($value['faqs']);
-                if ($amountFaqs == 0) unset($newArray[$key]);
+                if ($amountFaqs == 0) {
+                    unset($newArray[$key]);
+                };
             }
 
             // return the new array
             return $newArray;
-
         }
-
     }
 
-    protected function getCategoryName($categoryId)
-    { 
-        if ($categoryId == 0) return 0;
-        else return Categories::find($categoryId)->name;
+    protected function getCategoryName(int $categoryId): string|int
+    {
+        if ($categoryId == 0) {
+            return 0;
+        }
+
+        return Categories::find($categoryId)->name;
     }
 
     public function getCategoryIdOptions()
@@ -205,6 +241,7 @@ class Faqs extends ComponentBase
         $categories = Categories::lists('name', 'id');
         $categories[0] = 'aic.faq::lang.component.settings.category.all';
         ksort($categories);
+
         return $categories;
     }
 }

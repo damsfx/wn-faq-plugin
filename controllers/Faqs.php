@@ -1,7 +1,9 @@
-<?php namespace Aic\Faq\Controllers;
-use Backend\Classes\Controller;
+<?php
 
-use BackendMenu;
+namespace Aic\Faq\Controllers;
+
+use Backend\Classes\Controller;
+use Backend\Facades\BackendMenu;
 
 class Faqs extends Controller
 {
@@ -10,8 +12,14 @@ class Faqs extends Controller
         \Backend\Behaviors\ListController::class
     ];
 
+    /**
+     * @var string Body class property used for customising the layout
+     */
     public $bodyClass = 'compact-container';
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct()
     {
         parent::__construct();

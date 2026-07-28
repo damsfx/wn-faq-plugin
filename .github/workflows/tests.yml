@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - psr-fix
+  pull_request:
+
+jobs:
+  phpUnitTests:
+    name: ${{ matrix.operatingSystem }} / PHP ${{ matrix.phpVersion }}
+    runs-on: ${{ matrix.operatingSystem }}
+    strategy:
+      max-parallel: 4
+      matrix:
+        operatingSystem: [ubuntu-latest, windows-latest]
+        phpVersion: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - name: Setup Winter
+        uses: wintercms/setup-winter-action@v1
+        with:
+          php-version: ${{ matrix.phpVersion }}
+          plugin-author: aic
+          plugin-name: faq
+
+      - name: Run linting
+        run: ./vendor/bin/parallel-lint plugins/aic/faq
+
+      - name: Run unit tests
+        run: php artisan winter:test -p Aic.Faq

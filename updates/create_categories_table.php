@@ -1,4 +1,6 @@
-<?php namespace Aic\Faq\Updates;
+<?php
+
+namespace Aic\Faq\Updates;
 
 use Winter\Storm\Database\Updates\Migration;
 use Schema;

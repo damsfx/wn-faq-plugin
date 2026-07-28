@@ -18,7 +18,7 @@ columns:
         format: d/m/Y
         searchable: true
         invisible: true
-        
+
     updated_at:
         label: aic.faq::lang.form.updated_at
         type: datetime

@@ -1,63 +1,46 @@
 # FAQ plugin
 
-Create Frequently Asked Questions with ease!
+Create Frequently Asked Questions with ease!  
 These can be translated if you are using [Winter.Translate](https://github.com/wintercms/wn-translate-plugin).
 
-Note that if you are NOT using Winter.Translate, everything will work exactly the same but the 'Translated FAQs only' checkbox will be useless and there will be no translation support.
+![FAQ list](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/faq_list.jpg?raw=true)
 
-Note:
-
-- The FAQ plugin comes without JavaScript and without CSS. You must style this yourself, so that it will fit your website brand.
-- You can [override the translations](https://wintercms.com/docs/plugin/localization#overriding).
-- You can [extend any WinterCMS plugin](https://wintercms.com/docs/plugin/extending).
-- You can [override the default markup](https://wintercms.com/docs/cms/components#overriding-partials).
-
-
-## Images
-<p align="center">
-    <img src="https://github.com/AIC-BV/wn-faq-plugin/blob/main/assets/faq_list.jpg" alt="FAQ list" width="100%">
-</p>
-
-<p align="center">
-    <img src="https://github.com/AIC-BV/wn-faq-plugin/blob/main/assets/faq_edit.jpg" alt="FAQ edit" width="100%">
-</p>
+![FAQ editing](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/faq_edit.jpg?raw=true)
 
 ## Features
 
 With the FAQ plugin, you can:
 
-- Create and update your FAQ
-- Create and update categories for your FAQ
-- Assign categories to your FAQ
-- Define questions and answers in your FAQ
-- Control which FAQs are published
+- Full translation support if you are using Winter.Translate (optionnal)
+- Manage your FAQ, questions and answers
+- Manage FAQ's categories, can be used to group FAQ's together
+- Control published FAQ's status
     - Published
     - In progress (allows logged in backend users to see them on the frontend)
     - Hidden
-- Add a featured status to FAQ
+- Control featured FAQ's status
     - Featured
     - Not featured
 - Choose the sorting method between predefined choices
-    - Category (ascending and descending)
-    - Created at (ascending and descending)
-- Choose which categories you wish to display
-    - Your own created category
-    - Your own other created category
-    - Your own other other created category
-    - ...
-    - All
-- Choose which FAQs type you wish to display
-    - Featured
-    - Not featured
-    - All
+- First class components to display your FAQ's on the frontend
+    - Choose which categories you wish to display
+    - Choose which FAQs you wish to display according to their status
 - Enable a search field, allowing users to quickly find FAQs
-- Define the minimum amount of records that are required for displaying the search field
-- Make sure that only FAQs in the correct language are shown
-    - for example: if FAQ #1 is NOT translated in Spanish, it won't show when the user's locale is Spanish
-    - for example: if FAQ #2 is translated in Spanish and English, it will show in both Spanish and English, but not in French.
-- The default markup makes use of [HTML5 details & summary](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)
-    - This adds default behaviour for opening and closing FAQs
-- Translate FAQs
+  - You can choose the minimum amount of results that are required for displaying the search field
+- FAQs are filtered by locale: only entries translated into the user's current language are displayed.  
+An FAQ without a Spanish translation stays hidden for Spanish users, even if it exists in English or French.
+- The default markup uses [HTML5 `<details>` and `<summary>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) elements, giving each FAQ native open/close behavior with no JavaScript required.  
+Since it's just plain, semantic HTML, the markup is easy to override or restyle to match your theme.
+
+> Notes:  
+> If you are NOT using Winter.Translate, everything will work exactly the same but the 'Translated FAQs only' component property will be useless and there will be no translation support.  
+> 
+> The FAQ plugin comes without JavaScript and without CSS. You must style this yourself, so that it will fit your website brand.
+>
+> You can override : 
+> - [Translations](https://wintercms.com/docs/plugin/localization#overriding)
+> - [Default markup](https://wintercms.com/docs/cms/components#overriding-partials)
+> - [The plugin himself](https://wintercms.com/docs/plugin/extending)
 
 ## Default behaviour:
 
@@ -71,9 +54,24 @@ With the FAQ plugin, you can:
 
 ## Installation
 
-You can (soon) install this plugin for free using WinterCMS Marketplace or (now) using composer (composer require aic/wn-faq-plugin and php artisan winter:up).
-You can then go to 'CMS -> Components' to drag and drop FAQ in to your page/layout.
-Clicking the FAQ component gives you the options to modify the default behaviour.
+The plugin will be available on the WinterCMS Marketplace as soon as the WinterCMS team release it.
+
+### Using composer
+Just run this command
+```bash
+composer require aic/wn-faq-plugin
+```
+
+### Clone
+Clone this repo into your winter plugins folder.
+
+```bash
+cd plugins
+mkdir aic && cd aic
+git clone https://github.com/AIC-BV/wn-faq-plugin faq
+```
+**In both cases, you will need to run `php artisan winter:up` to create plugin's database tables.**
+You can also log off and log back in to the backend to make sure the plugin is fully installed.
 
 ## FAQ variables
 
@@ -111,3 +109,6 @@ Special thanks to the WinterCMS maintainer team for making this possible:
 - [Jack Wilkinson](https://github.com/jaxwilko)
 - [Luke Towers](https://github.com/LukeTowers)
 - [Marc Jauvin](https://github.com/mjauvin)
+
+***
+Make awesome sites with ❄ [WinterCMS](https://wintercms.com) !
