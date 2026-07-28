@@ -6,6 +6,7 @@ use Winter\Storm\Database\Model;
 
 class Categories extends Model
 {
+    use \Aic\Faq\Classes\Traits\Urlable;
     use \Winter\Storm\Database\Traits\Validation;
 
     protected $table = 'aic_faq_categories';
@@ -23,6 +24,18 @@ class Categories extends Model
      */
     public $translatable = [
         'name'
+    ];
+
+    /*
+     * Relations
+     */
+    public $hasMany = [
+        'faqs' => [
+            Faqs::class,
+            'key' => 'category_id',
+            'order' => 'published_at desc',
+            'scope' => 'isPublished',
+        ],
     ];
 
     //

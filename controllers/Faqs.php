@@ -13,6 +13,11 @@ class Faqs extends Controller
     ];
 
     /**
+     * @var array Required permissions
+     */
+    public $requiredPermissions = ['aic.faq.manage_faqs'];
+
+    /**
      * @var string Body class property used for customising the layout
      */
     public $bodyClass = 'compact-container';

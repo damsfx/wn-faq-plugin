@@ -5,22 +5,32 @@
 columns:
 
     id:
-        label: aic.faq::lang.form.id
+        label: aic.faq::lang.models.general.id
         invisible: true
 
     name:
-        label: aic.faq::lang.form.name
+        label: aic.faq::lang.models.general.name
         searchable: true
+        
+    slug:
+        label: aic.faq::lang.models.general.slug
+        searchable: true
+        invisible: true
+
+    is_published:
+        label: aic.faq::lang.models.category.published_status.title
+        sortable: false
+        type: categorypublishedstatus
 
     created_at:
-        label: aic.faq::lang.form.created_at
+        label: aic.faq::lang.models.general.created_at
         type: datetime
         format: d/m/Y
         searchable: true
         invisible: true
 
     updated_at:
-        label: aic.faq::lang.form.updated_at
+        label: aic.faq::lang.models.general.updated_at
         type: datetime
         format: Y/m/d
         searchable: true

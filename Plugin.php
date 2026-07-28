@@ -3,8 +3,9 @@
 namespace Aic\Faq;
 
 use Backend\Facades\Backend;
+use Illuminate\Support\Facades\Lang;
+use Winter\User\Models\UserRole;
 use System\Classes\PluginBase;
-
 class Plugin extends PluginBase
 {
     /**
@@ -59,10 +60,16 @@ class Plugin extends PluginBase
     public function registerPermissions(): array
     {
         return [
-            'aic.faq.*' => [
+            'aic.faq.manage_categories' => [
                 'tab' => 'aic.faq::lang.menu.faqs',
-                'label' => 'aic.faq::lang.permission.faq'
-            ]
+                'label' => 'aic.faq::lang.permissions.manage_categories',
+                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
+            ],
+            'aic.faq.manage_faqs' => [
+                'tab' => 'aic.faq::lang.menu.faqs',
+                'label' => 'aic.faq::lang.permissions.manage_faqs',
+                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
+            ],
         ];
     }
 
@@ -72,7 +79,32 @@ class Plugin extends PluginBase
     public function registerComponents(): array
     {
         return [
-            'Aic\Faq\Components\Faqs' => 'FAQ'
+            'Aic\Faq\Components\Categories' => 'faqCategories',
+            'Aic\Faq\Components\Faqs' => 'FAQ',
+        ];
+    }
+
+    /**
+     * Register custom column types for the backend list view
+     */
+    public function registerListColumnTypes(): array
+    {
+        return [
+            'categorypublishedstatus' => function ($value) { 
+                $text = [
+                    0 => 'not_published',
+                    1 => 'published',
+                ];
+
+                $class = [
+                    0 => 'text-danger',
+                    1 => 'text-success',
+                ];
+
+                return '<span class="wn-icon-circle '. $class[$value] .'">'.
+                    Lang::get('aic.faq::lang.form.published_status.' . $text[$value]) 
+                    .'</span>';
+            }
         ];
     }
 }

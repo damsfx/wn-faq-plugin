@@ -8,6 +8,54 @@ return [
     'button' => [
         'return' => 'Retour'
     ],
+
+    'components' => [
+        'categories' => [
+            'title' => 'Catégories de FAQ',
+            'description' => 'Liste des catégories de FAQ',
+            'all_label' => 'Toutes les questions',
+            'properties' => [
+                'links' => 'Liens',
+                'category_page' => [
+                    'title' => 'Page de catégorie',
+                    'description' => 'Page qui affiche les FAQs d’une catégorie'
+                ],
+                'faq_page' => [
+                    'title' => 'Page d’aperçu',
+                    'description' => 'Page qui affiche toutes les FAQs'
+                ],
+                'slug' => [
+                    'title' => 'Slug de catégorie',
+                    'description' => 'Slug de la catégorie active, utilisé pour la mettre en évidence dans la liste'
+                ],
+            ],
+        ],
+        'faqs' => [
+            'title' => 'FAQs',
+            'description' => 'Liste des FAQs',
+        ]
+    ],
+    
+    'models' => [
+        'general' => [
+            'id' => 'ID',
+            'name' => 'Nom',
+            'slug' => 'Slug',
+            'created_at' => 'Créé le',
+            'updated_at' => 'Mis à jour le',
+        ],
+        'category' => [
+            'label' => 'Catégorie',
+            'label_plural' => 'Catégories',
+            'published_status' => [
+                'title' => 'Statut publication',
+                'published' => 'Publié',
+                'not_published' => 'Caché',
+                'draft' => 'En cours',
+            ],
+        ]
+    ],
+
     'menu' => [
         'faqs' => 'FAQs',
         'categories' => 'Catégories'
@@ -43,8 +91,6 @@ return [
         ]
     ],
     'component' => [
-        'title' => 'FAQs',
-        'description' => 'Liste des FAQs',
         'settings' => [
             'sort' => [
                 'title'       => 'Tri',
@@ -86,7 +132,9 @@ return [
             ]
         ]
     ],
-    'permission' => [
-        'faq' => 'Gérer la FAQ'
+
+    'permissions' => [
+        'manage_categories' => 'Gérer les catégories de FAQ',
+        'manage_faqs' => 'Gérer les FAQs'
     ]
 ];

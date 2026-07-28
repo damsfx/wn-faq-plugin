@@ -1,5 +1,8 @@
 1.0.0:
-    - Create faqs table
+    - 'Create faqs table'
     - create_faqs_table.php
-    - Create Categories table
+    - 'Create Categories table'
     - create_categories_table.php
+1.1.0:
+    - 'Add categories component'
+    - 1.1.0/update_categories_table.php

@@ -13,6 +13,11 @@ class Categories extends Controller
     ];
 
     /**
+     * @var array Required permissions
+     */
+    public $requiredPermissions = ['aic.faq.manage_categories'];
+
+    /**
      * @var string Body class property used for customising the layout
      */
     public $bodyClass = 'compact-container';

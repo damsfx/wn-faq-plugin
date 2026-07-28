@@ -8,6 +8,54 @@ return [
     'button' => [
         'return' => 'Vorige'
     ],
+
+    'components' => [
+        'categories' => [
+            'title' => 'FAQ-categorieën',
+            'description' => 'Lijst van FAQ-categorieën',
+            'all_label' => 'Alle vragen',
+            'properties' => [
+                'links' => 'Links',
+                'category_page' => [
+                    'title' => 'Categoriepagina',
+                    'description' => 'Pagina die de FAQs van één categorie toont'
+                ],
+                'faq_page' => [
+                    'title' => 'Overzichtspagina',
+                    'description' => 'Pagina die alle FAQs toont'
+                ],
+                'slug' => [
+                    'title' => 'Categorie-slug',
+                    'description' => 'Slug van de actieve categorie, gebruikt om die te markeren in de lijst'
+                ],
+            ],
+        ],
+        'faqs' => [
+            'title' => 'FAQs',
+            'description' => 'Lijst van FAQs',
+        ]
+    ],
+
+    'models' => [
+        'general' => [
+            'id' => 'ID',
+            'name' => 'Naam',
+            'slug' => 'Slug',
+            'created_at' => 'Aangemaakt op',
+            'updated_at' => 'Aangepast op',
+        ],
+        'category' => [
+            'label' => 'Categorie',
+            'label_plural' => 'Categorieën',
+            'published_status' => [
+                'title' => 'Gepubliceerd status',
+                'published' => 'Gepubliceerd',
+                'not_published' => 'Verborgen',
+                'draft' => 'In bewerking',
+            ],
+        ]
+    ],
+
     'menu' => [
         'faqs' => 'FAQs',
         'categories' => 'Categorieën'
@@ -43,8 +91,7 @@ return [
         ]
     ],
     'component' => [
-        'title' => 'FAQs',
-        'description' => 'Lijst van FAQs',
+
         'settings' => [
             'sort' => [
                 'title'       => 'Sorteer',
@@ -86,7 +133,9 @@ return [
             ]
         ]
     ],
-    'permission' => [
-        'faq' => 'Beheer FAQ'
+
+    'permissions' => [
+        'manage_categories' => 'Beheer FAQ-categorieën',
+        'manage_faqs' => 'Beheer FAQs',
     ]
 ];

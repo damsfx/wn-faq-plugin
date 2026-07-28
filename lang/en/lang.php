@@ -8,6 +8,54 @@ return [
     'button' => [
         'return' => 'Return'
     ],
+
+    'components' => [
+        'categories' => [
+            'title' => 'FAQ Categories',
+            'description' => 'List of FAQ categories',
+            'all_label' => 'All questions',
+            'properties' => [
+                'links' => 'Links',
+                'slug' => [
+                    'title' => 'Category slug',
+                    'description' => 'Slug of the active category, used to highlight it in the list'
+                ],
+                'faq_page' => [
+                    'title' => 'Overview page',
+                    'description' => 'Page that shows all FAQs'
+                ],
+                'category_page' => [
+                    'title' => 'Category page',
+                    'description' => 'Page that shows the FAQs of one category'
+                ]
+            ],
+        ],
+        'faqs' => [
+            'title' => 'FAQs',
+            'description' => 'List of FAQs',
+        ]
+    ],
+
+    'models' => [
+        'general' => [
+            'id' => 'ID',
+            'name' => 'Name',
+            'slug' => 'Slug',
+            'created_at' => 'Created at',
+            'updated_at' => 'Updated at',
+        ],
+        'category' => [
+            'label' => 'Category',
+            'label_plural' => 'Categories',
+            'published_status' => [
+                'title' => 'Published status',
+                'published' => 'Published',
+                'not_published' => 'Hidden',
+                'draft' => 'In progress',
+            ],
+        ]
+    ],
+
     'menu' => [
         'faqs' => 'FAQs',
         'categories' => 'Categories'
@@ -43,8 +91,7 @@ return [
         ]
     ],
     'component' => [
-        'title' => 'FAQs',
-        'description' => 'List of FAQs',
+
         'settings' => [
             'sort' => [
                 'title'       => 'Sort',
@@ -86,7 +133,9 @@ return [
             ]
         ]
     ],
-    'permission' => [
-        'faq' => 'Manage FAQ'
+
+    'permissions' => [
+        'manage_categories' => 'Manage FAQ Categories',
+        'manage_faqs' => 'Manage FAQs',
     ]
 ];

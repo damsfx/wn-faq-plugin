@@ -45,14 +45,20 @@ class Faqs extends ComponentBase
      */
     public string $searchQuery;
 
+    /**
+     * Gets the details for the component
+     */
     public function componentDetails()
     {
         return [
-            'name'        => 'aic.faq::lang.component.title',
-            'description' => 'aic.faq::lang.component.description',
+            'name'        => 'aic.faq::lang.components.faqs.title',
+            'description' => 'aic.faq::lang.components.faqs.description',
         ];
     }
 
+    /**
+     * Returns the properties provided by the component
+     */
     public function defineProperties()
     {
         return [
@@ -108,6 +114,9 @@ class Faqs extends ComponentBase
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function onRun()
     {
         $this->prepareVars();
