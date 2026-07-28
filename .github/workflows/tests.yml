@@ -27,5 +27,5 @@ jobs:
       - name: Run linting
         run: ./vendor/bin/parallel-lint plugins/aic/faq
 
-    #   - name: Run unit tests
-    #     run: php artisan winter:test -p Aic.Faq
+      - name: Run unit tests
+        run: php artisan winter:test -p Aic.Faq
