@@ -118,15 +118,17 @@ class Faqs extends ComponentBase
     {
         $this->isSearch = (bool) $this->property('isSearch');
         $this->searchQuery = (string) trim(input('q'));
-        $this->canShowSearch = $this->showSearch();
 
         $categoryId = (int) $this->property('categoryId');
         if ($categoryId !== 0 && !Categories::whereKey($categoryId)->exists()) {
+            $this->canShowSearch = false;
             $this->faqs = new Collection();
             $this->faqsPerCategory = [];
 
             return;
         }
+
+        $this->canShowSearch = $this->showSearch();
 
         $this->faqs = $this->getFAQs();
         $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);

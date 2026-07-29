@@ -112,7 +112,7 @@ class FaqsModelTest extends PluginTestCase
         $this->createCategory('Zeta');
         $this->createCategory('Alpha');
 
-        $options = (new Categories())->getCategoryOptions();
+        $options = (new Categories())->getCategoriesListOptions();
 
         $this->assertSame(['Alpha', 'Zeta'], array_values($options));
     }

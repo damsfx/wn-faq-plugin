@@ -4,6 +4,7 @@ namespace Aic\Faq\Models;
 
 use Backend\Facades\BackendAuth;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
 use Winter\Storm\Database\Model;
 use Winter\Storm\Database\Builder;
 use Winter\Storm\Support\Facades\DB;
@@ -64,6 +65,16 @@ class Faqs extends Model
         'created_at desc'
     ];
 
+    /**
+     * Check whether Winter.Translate is available and its required tables exist.
+     */
+    protected static function canUseTranslateTables(): bool
+    {
+        return class_exists('Winter\\Translate\\Behaviors\\TranslatableModel')
+            && Schema::hasTable('winter_translate_locales')
+            && Schema::hasTable('winter_translate_attributes');
+    }
+
     //
     // Scopes
     //
@@ -123,14 +134,13 @@ class Faqs extends Model
      */
     public function scopeTranslatedOnly(Builder $query, bool $isTranslated): Builder
     {
-        // Only if Winter.Translate is installed
-        if (class_exists('Winter\Translate\Behaviors\TranslatableModel')) {
+        if (self::canUseTranslateTables()) {
             // get current and default locale
             $currentLocale = App::getLocale();
             $defaultLocale = DB::table('winter_translate_locales')->where('is_default', 1)->value('code');
 
             // get which FAQs can be shown
-            if ($currentLocale != $defaultLocale) {
+            if ($defaultLocale !== null && $currentLocale != $defaultLocale) {
                 $ids = DB::table('winter_translate_attributes')
                     ->where('model_type', 'Aic\Faq\Models\Faqs')
                     ->where('locale', $currentLocale)
@@ -155,14 +165,13 @@ class Faqs extends Model
      */
     public function scopeSearchQuery(Builder $query, string $searchQuery, array $searchableFields): Builder
     {
-        // if Winter.Translate is installed
-        if (class_exists('Winter\Translate\Behaviors\TranslatableModel')) {
+        if (self::canUseTranslateTables()) {
             // get current and default locale
             $currentLocale = App::getLocale();
             $defaultLocale = DB::table('winter_translate_locales')->where('is_default', 1)->value('code');
 
             // search on the FAQs in the correct language
-            if ($currentLocale != $defaultLocale) {
+            if ($defaultLocale !== null && $currentLocale != $defaultLocale) {
                 $ids = DB::table('winter_translate_attributes')
                     ->where('model_type', 'Aic\Faq\Models\Faqs')
                     ->where('locale', $currentLocale)
