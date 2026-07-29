@@ -1,15 +1,18 @@
-{% if __SELF__.isSearch and __SELF__.minSearchResults %}
+{% if __SELF__.canShowSearch %}
     <aside class='aic-search'>
         <form>
-            <input type='text' id='{{ __SELF__.id }}' name='q' placeholder='{{ __SELF__.searchPlaceholder }}' value='{{ __SELF__.searchQuery }}'>
-            <button type='submit'><label for='{{ __SELF__.id }}' style='pointer-events: none;'>{{ __SELF__.searchLabel }}</label></button>
+            <input type='text' id='{{ __SELF__.id }}' name='q' placeholder='{{ 'aic.faq::lang.components.faqs.search_placeholder' | trans }}' value='{{ __SELF__.searchQuery }}'>
+            <label for='{{ __SELF__.id }}' style='pointer-events: none;'>
+                <button type='submit'>{{ 'aic.faq::lang.components.faqs.search_button' | trans }}</button>
+            </label>
         </form>
     </aside>
 {% endif %}
 
-{% if __SELF__.faqsPerCategory|length > 0 %}
+<div class='aic-faqs'>
+{% if __SELF__.faqsPerCategory | length > 0 %}
     {% for item in __SELF__.faqsPerCategory %}
-        <div class='aic-category'>
+        <div class='faq-category'>
             <h2>{{ item.categoryName }}</h2>
             <ul>
             {% for faq in item.faqs %}
@@ -23,19 +26,24 @@
             </ul>
         </div>
     {% endfor %}
+{% else %}
+    <p class='no-faqs-message'>{{ 'aic.faq::lang.components.faqs.no_results' | trans }}</p>
 {% endif %}
+</div>
 
-{% put scripts %}
-<script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{% for faq in __SELF__.faqs %}{
-        "@type": "Question",
-        "name": "{{ faq.question }}",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "{{ faq.answer | md }}"
-        }
-    }{{ loop.last ? '' : ', ' }}{% endfor %}]
-}</script>
-{% endput %}
+{% if __SELF__.faqsPerCategory | length > 0 %}
+    {% put scripts %}
+    <script type="application/ld+json">{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{% for faq in __SELF__.faqs %}{
+            "@type": "Question",
+            "name": "{{ faq.question }}",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{{ faq.answer | md }}"
+            }
+        }{{ loop.last ? '' : ', ' }}{% endfor %}]
+    }</script>
+    {% endput %}
+{% endif %}

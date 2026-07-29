@@ -1,4 +1,6 @@
-<?php namespace Aic\Faq\Tests;
+<?php
+
+namespace Aic\Faq\Tests;
 
 use Aic\Faq\Models\Categories;
 use Aic\Faq\Models\Faqs;

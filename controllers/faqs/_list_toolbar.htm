@@ -4,7 +4,7 @@
     <a
         href="<?= Backend::url('aic/faq/faqs/create') ?>"
         class="btn btn-primary wn-icon-plus">
-        <?= e(trans('aic.faq::lang.new.faqs')) ?>
+        <?= e(trans('aic.faq::lang.controllers.faqs.new')) ?>
     </a>
 
     <?php if (Aic\Faq\Models\Faqs::count() > 0): ?>
@@ -25,5 +25,5 @@
     </button>
 
     <?php endif ?>
-    
+
 </div>

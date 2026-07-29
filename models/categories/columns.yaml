@@ -11,7 +11,7 @@ columns:
     name:
         label: aic.faq::lang.models.general.name
         searchable: true
-        
+
     slug:
         label: aic.faq::lang.models.general.slug
         searchable: true
@@ -20,7 +20,7 @@ columns:
     is_published:
         label: aic.faq::lang.models.category.published_status.title
         sortable: false
-        type: categorypublishedstatus
+        type: publishedstatus
 
     created_at:
         label: aic.faq::lang.models.general.created_at

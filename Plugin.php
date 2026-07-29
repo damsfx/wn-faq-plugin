@@ -6,6 +6,7 @@ use Backend\Facades\Backend;
 use Illuminate\Support\Facades\Lang;
 use Winter\User\Models\UserRole;
 use System\Classes\PluginBase;
+
 class Plugin extends PluginBase
 {
     /**
@@ -90,19 +91,36 @@ class Plugin extends PluginBase
     public function registerListColumnTypes(): array
     {
         return [
-            'categorypublishedstatus' => function ($value) { 
+            'publishedstatus' => function ($value) {
                 $text = [
                     0 => 'not_published',
                     1 => 'published',
+                    2 => 'in_draft'
                 ];
 
                 $class = [
                     0 => 'text-danger',
                     1 => 'text-success',
+                    2 => 'text-warning'
                 ];
 
                 return '<span class="wn-icon-circle '. $class[$value] .'">'.
-                    Lang::get('aic.faq::lang.form.published_status.' . $text[$value]) 
+                    Lang::get('aic.faq::lang.models.general.published_status.' . $text[$value])
+                    .'</span>';
+            },
+            'featuredstatus' => function ($value) {
+                $text = [
+                    0 => 'not_featured',
+                    1 => 'featured'
+                ];
+
+                $class = [
+                    0 => '',
+                    1 => 'text-success'
+                ];
+
+                return '<span class="wn-icon-circle '. $class[$value] .'">'.
+                    Lang::get('aic.faq::lang.models.general.featured_status.' . $text[$value])
                     .'</span>';
             }
         ];

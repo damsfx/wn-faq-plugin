@@ -1,11 +1,10 @@
-<?php 
+<?php
 
 namespace Aic\Faq\Components;
 
 use Lang;
 use Aic\Faq\Models\Categories as FaqCategories;
 use Cms\Classes\ComponentBase;
-use Cms\Classes\Page;
 use Illuminate\Support\Collection;
 
 class Categories extends ComponentBase

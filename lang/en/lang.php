@@ -5,8 +5,22 @@ return [
         'name' => 'FAQ',
         'description' => 'Frequently Asked Questions. Questions and answers. Assign them to a category, add featured statusses and manage which ones are displayed on the frontend.'
     ],
-    'button' => [
-        'return' => 'Return'
+
+    'menu' => [
+        'faqs' => 'FAQs',
+        'categories' => 'Categories'
+    ],
+
+    'controllers' => [
+        'buttons' => [
+            'return' => 'Return'
+        ],
+        'faqs' => [
+            'new' => 'New FAQ'
+        ],
+        'categories' => [
+            'new' => 'New category'
+        ]
     ],
 
     'components' => [
@@ -33,6 +47,50 @@ return [
         'faqs' => [
             'title' => 'FAQs',
             'description' => 'List of FAQs',
+            'search_button' => 'Search',
+            'search_placeholder' => 'What are you looking for?',
+            'no_results' => 'No FAQ found.',
+            'properties' => [
+                'search_group' => 'Search',
+                'category' => [
+                    'title' => 'Category',
+                    'description' => 'Choose which category to display',
+                    'all' => 'All categories',
+                    'no_category_label' => 'Other',
+                ],
+                'featured' => [
+                    'title' => 'FAQs',
+                    'description' => 'Choose which FAQs to display',
+                    'options' => [
+                        0 => 'All except featured',
+                        1 => 'Featured only',
+                        2 => 'All FAQs'
+                    ],
+                ],
+                'minSearchResults' => [
+                    'title' => 'Search minimum results',
+                    'description' => 'Minimum amount of results for the search field to show. Must be a number',
+                    'validationMessage' => 'Must be a number',
+                ],
+                'search' => [
+                    'title' => 'Search enabled',
+                    'description' => 'Enable the search functionality',
+                ],
+                'sort' => [
+                    'title'       => 'Sort',
+                    'description' => 'Choose the display order of the FAQs',
+                    'options'     => [
+                        'category_id_asc'  => 'Category ascending',
+                        'category_id_desc' => 'Category descending',
+                        'created_at_asc'   => 'Created at ascending',
+                        'created_at_desc'  => 'Created at descending',
+                    ]
+                ],
+                'translated' => [
+                    'title' => 'Translated FAQs only',
+                    'description' => 'Show only the translated FAQs in the current language',
+                ],
+            ],
         ]
     ],
 
@@ -40,9 +98,22 @@ return [
         'general' => [
             'id' => 'ID',
             'name' => 'Name',
+            'none_options' => '-- None --',
             'slug' => 'Slug',
+            'total' => 'Total',
             'created_at' => 'Created at',
             'updated_at' => 'Updated at',
+            'featured_status' => [
+                'title' => 'Featured',
+                'featured' => 'Featured',
+                'not_featured' => 'Not featured'
+            ],
+            'published_status' => [
+                'title' => 'Published',
+                'published' => 'Published',
+                'not_published' => 'Hidden',
+                'in_draft' => 'In progress'
+            ],
         ],
         'category' => [
             'label' => 'Category',
@@ -53,84 +124,12 @@ return [
                 'not_published' => 'Hidden',
                 'draft' => 'In progress',
             ],
-        ]
-    ],
-
-    'menu' => [
-        'faqs' => 'FAQs',
-        'categories' => 'Categories'
-    ],
-    'title' => [
-        'faqs' => 'FAQ',
-        'categories' => 'Category'
-    ],
-    'new' => [
-        'faqs' => 'New FAQ',
-        'categories' => 'New category'
-    ],
-    'form' => [
-        'total' => 'TOTAL',
-        'id' => 'ID',
-        'name' => 'Name',
-        'created_at' => 'Created at',
-        'updated_at' => 'Updated at',
-        'question' => 'Question',
-        'answer' => 'Answer',
-        'category' => 'Category',
-        'no_category' => '-',
-        'featured_status' => [
-            'title' => 'Featured',
-            'featured' => 'Featured',
-            'not_featured' => 'Not featured'
         ],
-        'published_status' => [
-            'title' => 'Published',
-            'published' => 'Published',
-            'not_published' => 'Hidden',
-            'in_draft' => 'In progress'
-        ]
-    ],
-    'component' => [
-
-        'settings' => [
-            'sort' => [
-                'title'       => 'Sort',
-                'description' => 'Choose the display order of the FAQs',
-                'options'     => [
-                    'category_id_asc'  => 'Category ascending',
-                    'category_id_desc' => 'Category descending',
-                    'created_at_asc'   => 'Created at ascending',
-                    'created_at_desc'  => 'Created at descending'
-                ]
-            ],
-            'category' => [
-                'title' => 'Category',
-                'description' => 'Choose which category to display',
-                'all' => 'All categories',
-                'no_category_label' => 'Other'
-            ],
-            'featured' => [
-                'title' => 'FAQs',
-                'description' => 'Choose which FAQs to display',
-                'all' => 'All FAQs',
-                'featured' => 'Featured FAQs',
-                'not_featured' => 'All except featured FAQs'
-            ],
-            'translated' => [
-                'title' => 'Translated FAQs only',
-                'description' => 'Show only the translated FAQs in the current language'
-            ],
-            'search' => [
-                'title' => 'Search enabled',
-                'description' => 'Enable the search functionality',
-                'button_label' => 'Search',
-                'input_placeholder' => 'What are you looking for?'
-            ],
-            'minSearchResults' => [
-                'title' => 'Search minimum results',
-                'description' => 'Minimum amount of results for the search field to show. Must be a number',
-                'validationMessage' => 'Must be a number'
-            ]
+        'faq' => [
+            'label' => 'FAQ',
+            'label_plural' => 'FAQs',
+            'question' => 'Question',
+            'answer' => 'Answer',
         ]
     ],
 

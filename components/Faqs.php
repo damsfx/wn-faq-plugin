@@ -26,19 +26,9 @@ class Faqs extends ComponentBase
     public bool $isSearch;
 
     /**
-     * Search label
+     * Whether the search form should be rendered
      */
-    public string $searchLabel;
-
-    /**
-     * Search placeholder
-     */
-    public string $searchPlaceholder;
-
-    /**
-     * Minimum number of FAQs to show the search form
-     */
-    public int $minSearchResults;
+    public bool $canShowSearch;
 
     /**
      * The search query
@@ -47,8 +37,10 @@ class Faqs extends ComponentBase
 
     /**
      * Gets the details for the component
+     *
+     * @return array<string, string>
      */
-    public function componentDetails()
+    public function componentDetails(): array
     {
         return [
             'name'        => 'aic.faq::lang.components.faqs.title',
@@ -58,101 +50,107 @@ class Faqs extends ComponentBase
 
     /**
      * Returns the properties provided by the component
+     *
+     * @return array<string, mixed>
      */
-    public function defineProperties()
+    public function defineProperties(): array
     {
         return [
             'sort' => [
-                'title'       => 'aic.faq::lang.component.settings.sort.title',
-                'description' => 'aic.faq::lang.component.settings.sort.description',
+                'title'       => 'aic.faq::lang.components.faqs.properties.sort.title',
+                'description' => 'aic.faq::lang.components.faqs.properties.sort.description',
                 'type'        => 'dropdown',
                 'default'     => 'category_id asc',
-                'options'     => [
-                    'category_id asc'  => 'aic.faq::lang.component.settings.sort.options.category_id_asc',
-                    'category_id desc' => 'aic.faq::lang.component.settings.sort.options.category_id_desc',
-                    'created_at asc'   => 'aic.faq::lang.component.settings.sort.options.created_at_asc',
-                    'created_at desc'  => 'aic.faq::lang.component.settings.sort.options.created_at_desc'
-                ]
             ],
             'categoryId' => [
-                'title'       => 'aic.faq::lang.component.settings.category.title',
-                'description' => 'aic.faq::lang.component.settings.category.description',
+                'title'       => 'aic.faq::lang.components.faqs.properties.category.title',
+                'description' => 'aic.faq::lang.components.faqs.properties.category.description',
                 'type'        => 'dropdown',
                 'default'     => 0
             ],
             'isFeatured' => [
-                'title'       => 'aic.faq::lang.component.settings.featured.title',
-                'description' => 'aic.faq::lang.component.settings.featured.description',
+                'title'       => 'aic.faq::lang.components.faqs.properties.featured.title',
+                'description' => 'aic.faq::lang.components.faqs.properties.featured.description',
                 'type'        => 'dropdown',
                 'default'     => 2,
-                'options'     => [
-                    0 => 'aic.faq::lang.component.settings.featured.not_featured',
-                    1 => 'aic.faq::lang.component.settings.featured.featured',
-                    2 => 'aic.faq::lang.component.settings.featured.all'
-                ]
-            ],
-            'isSearch' => [
-                'title'       => 'aic.faq::lang.component.settings.search.title',
-                'description' => 'aic.faq::lang.component.settings.search.description',
-                'default'     => true,
-                'type'        => 'checkbox'
-            ],
-            'minSearchResults' => [
-                'title'       => 'aic.faq::lang.component.settings.minSearchResults.title',
-                'description' => 'aic.faq::lang.component.settings.minSearchResults.description',
-                'default'     => 10,
-                'type'        => 'string',
-                'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'aic.faq::lang.component.settings.minSearchResults.validationMessage'
+                'options'     => 'aic.faq::lang.components.faqs.properties.featured.options',
             ],
             'isTranslated' => [
-                'title'       => 'aic.faq::lang.component.settings.translated.title',
-                'description' => 'aic.faq::lang.component.settings.translated.description',
+                'title'       => 'aic.faq::lang.components.faqs.properties.translated.title',
+                'description' => 'aic.faq::lang.components.faqs.properties.translated.description',
                 'default'     => true,
                 'type'        => 'checkbox'
+            ],
+            'isSearch' => [
+                'title'       => 'aic.faq::lang.components.faqs.properties.search.title',
+                'description' => 'aic.faq::lang.components.faqs.properties.search.description',
+                'default'     => true,
+                'type'        => 'checkbox',
+                'group'       => 'aic.faq::lang.components.faqs.properties.search_group',
+            ],
+            'minSearchResults' => [
+                'title'             => 'aic.faq::lang.components.faqs.properties.minSearchResults.title',
+                'description'       => 'aic.faq::lang.components.faqs.properties.minSearchResults.description',
+                'default'           => 10,
+                'type'              => 'string',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => 'aic.faq::lang.components.faqs.properties.minSearchResults.validationMessage',
+                'group'             => 'aic.faq::lang.components.faqs.properties.search_group',
             ],
         ];
     }
 
     /**
-     * {@inheritDoc}
+     * Sort options getter
      */
-    public function onRun()
+    public function getSortOptions(): array
     {
-        $this->prepareVars();
-
-        $this->faqs = $this->getFAQs();
-        $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);
-        $this->minSearchResults = $this->showSearch();
+        // Replace _asc and _desc with asc and desc in the keys of the options array
+        return collect(Lang::get('aic.faq::lang.components.faqs.properties.sort.options'))
+            ->mapWithKeys(fn ($label, $key) => [preg_replace('/_(asc|desc)$/', ' $1', $key) => $label])
+            ->all();
     }
 
     /**
-     * Prepare variables for the component
+     * {@inheritDoc}
      */
-    protected function prepareVars()
+    public function onRun(): void
     {
         $this->isSearch = (bool) $this->property('isSearch');
-        $this->searchLabel = Lang::get('aic.faq::lang.component.settings.search.button_label');
-        $this->searchPlaceholder = Lang::get('aic.faq::lang.component.settings.search.input_placeholder');
         $this->searchQuery = (string) trim(input('q'));
+        $this->canShowSearch = $this->showSearch();
+
+        $categoryId = (int) $this->property('categoryId');
+        if ($categoryId !== 0 && !Categories::whereKey($categoryId)->exists()) {
+            $this->faqs = new Collection();
+            $this->faqsPerCategory = [];
+
+            return;
+        }
+
+        $this->faqs = $this->getFAQs();
+        $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);
     }
 
-
+    /**
+     * Determine whether the search form should be shown.
+     */
     protected function showSearch(): bool
     {
-        $minResults = (int) $this->property('minSearchResults');
+        if (!$this->isSearch) {
+            return false;
+        }
+
+        $minSearchResults = (int) $this->property('minSearchResults');
 
         $faqsWithoutSearch = Faq::listFrontEnd([
             'categoryId'   => (int) $this->property('categoryId'),
             'isFeatured'   => (int) $this->property('isFeatured'),
-            'isSearch'     => (bool) $this->property('isSearch'),
+            'isSearch'     => false,
             'isTranslated' => (int) $this->property('isTranslated')
         ])->count();
 
-        if ($faqsWithoutSearch >= $minResults) {
-            return true;
-        }
-        return false;
+        return $faqsWithoutSearch >= $minSearchResults;
     }
 
     /**
@@ -172,6 +170,12 @@ class Faqs extends ComponentBase
         return $faqs;
     }
 
+    /**
+     * Group FAQs by category for frontend rendering.
+     *
+     * @param Collection $faqs
+     * @return array<int|string, array<string, mixed>>
+     */
     protected function faqsPerCategory(Collection $faqs): array
     {
         // get properties
@@ -181,12 +185,16 @@ class Faqs extends ComponentBase
         // get category name
         $categoryName = $this->getCategoryName($categoryId);
 
+        if ($categoryId !== 0 && $categoryName === null) {
+            return [];
+        }
+
         // if category name is not 0 (all)
-        if ($categoryName != 0) {
+        if ($categoryName !== 0) {
             // return the FAQs with their category
             return [
                 [
-                    'name' => $categoryName,
+                    'categoryName' => $categoryName,
                     'faqs' => $faqs
                 ]
             ];
@@ -213,12 +221,21 @@ class Faqs extends ComponentBase
 
             // push the faq to the right category
             foreach ($faqs as $faq) {
-                $newArray[$faq->category_id]['faqs'][] = $faq;
+                $categoryKey = $faq->category_id;
+
+                if (!array_key_exists($categoryKey, $newArray)) {
+                    $newArray[$categoryKey] = [
+                        'categoryName' => Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label'),
+                        'faqs' => []
+                    ];
+                }
+
+                $newArray[$categoryKey]['faqs'][] = $faq;
 
                 // if categoryName doesn't exist
                 // set no_category_label
-                if (!array_key_exists('categoryName', $newArray[$faq->category_id])) {
-                    $newArray[$faq->category_id]['categoryName'] = Lang::get('aic.faq::lang.component.settings.category.no_category_label');
+                if (!array_key_exists('categoryName', $newArray[$categoryKey])) {
+                    $newArray[$categoryKey]['categoryName'] = Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label');
                 }
             }
 
@@ -235,20 +252,33 @@ class Faqs extends ComponentBase
         }
     }
 
-    protected function getCategoryName(int $categoryId): string|int
+    /**
+     * Resolve the selected category name.
+     *
+     * @param int $categoryId
+     * @return string|int|null
+     */
+    protected function getCategoryName(int $categoryId): string|int|null
     {
         if ($categoryId == 0) {
             return 0;
         }
 
-        return Categories::find($categoryId)->name;
+        $category = Categories::find($categoryId);
+
+        return $category?->name;
     }
 
-    public function getCategoryIdOptions()
+    /**
+     * Returns all categories as dropdown options.
+     *
+     * @return array<int, string>
+     */
+    public function getCategoryIdOptions(): array
     {
         // return all categories for the dropdown
         $categories = Categories::lists('name', 'id');
-        $categories[0] = 'aic.faq::lang.component.settings.category.all';
+        $categories[0] = 'aic.faq::lang.components.faqs.properties.category.all';
         ksort($categories);
 
         return $categories;
