@@ -99,31 +99,16 @@ return [
             'id' => 'ID',
             'name' => 'Name',
             'none_options' => '-- None --',
+            'published_status' => 'Published',
             'slug' => 'Slug',
             'total' => 'Total',
             'created_at' => 'Created at',
             'updated_at' => 'Updated at',
-            'featured_status' => [
-                'title' => 'Featured',
-                'featured' => 'Featured',
-                'not_featured' => 'Not featured'
-            ],
-            'published_status' => [
-                'title' => 'Published',
-                'published' => 'Published',
-                'not_published' => 'Hidden',
-                'in_draft' => 'In progress'
-            ],
+            'featured_status' => 'Featured',
         ],
         'category' => [
             'label' => 'Category',
             'label_plural' => 'Categories',
-            'published_status' => [
-                'title' => 'Published status',
-                'published' => 'Published',
-                'not_published' => 'Hidden',
-                'draft' => 'In progress',
-            ],
         ],
         'faq' => [
             'label' => 'FAQ',
@@ -136,5 +121,17 @@ return [
     'permissions' => [
         'manage_categories' => 'Manage FAQ Categories',
         'manage_faqs' => 'Manage FAQs',
+    ],
+
+    'enums' => [
+        'featured_status' => [
+            '0' => 'Not featured',
+            '1' => 'Featured',
+        ],
+        'publish_status' => [
+            0 => 'Not published',
+            1 => 'Published',
+            2 => 'In draft'
+        ],
     ]
 ];

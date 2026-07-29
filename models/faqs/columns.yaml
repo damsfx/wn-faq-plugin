@@ -24,11 +24,11 @@ columns:
         invisible: true
 
     is_featured:
-        label: aic.faq::lang.models.general.featured_status.title
+        label: aic.faq::lang.models.general.featured_status
         type: featuredstatus
 
     is_published:
-        label: aic.faq::lang.models.general.published_status.title
+        label: aic.faq::lang.models.general.published_status
         type: publishedstatus
 
     created_at:

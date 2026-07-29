@@ -24,18 +24,13 @@ secondaryTabs:
     fields:
 
         is_published:
-            label: aic.faq::lang.models.general.published_status.title
+            label: aic.faq::lang.models.general.published_status
             type: balloon-selector
-            options:
-                1: aic.faq::lang.models.general.published_status.published
-                2: aic.faq::lang.models.general.published_status.in_draft
-                0: aic.faq::lang.models.general.published_status.not_published
+            options: getPublishStatusOptions
             default: 1
 
         is_featured:
-            label: aic.faq::lang.models.general.featured_status.title
+            label: aic.faq::lang.models.general.featured_status
             type: balloon-selector
-            options:
-                1: aic.faq::lang.models.general.featured_status.featured
-                0: aic.faq::lang.models.general.featured_status.not_featured
+            options: getFeaturedStatusOptions
             default: 0

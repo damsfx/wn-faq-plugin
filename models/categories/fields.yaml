@@ -14,12 +14,9 @@ fields:
         span: auto
 
     is_published:
-        label: aic.faq::lang.models.category.published_status.title
+        label: aic.faq::lang.models.general.published_status
         type: balloon-selector
-        options:
-            0: aic.faq::lang.models.category.published_status.not_published
-            1: aic.faq::lang.models.category.published_status.published
-            2: aic.faq::lang.models.category.published_status.draft
+        options: getPublishStatusOptions
         default: 1
 
 secondaryTabs:

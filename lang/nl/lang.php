@@ -99,31 +99,16 @@ return [
             'id' => 'ID',
             'name' => 'Naam',
             'none_options' => '-- Geen --',
+            'published_status' => 'Gepubliceerd',
             'slug' => 'Slug',
             'total' => 'Totaal',
             'created_at' => 'Aangemaakt op',
             'updated_at' => 'Aangepast op',
-            'featured_status' => [
-                'title' => 'Uitgelicht',
-                'featured' => 'Uitgelicht',
-                'not_featured' => 'Niet uitgelicht'
-            ],
-            'published_status' => [
-                'title' => 'Gepubliceerd',
-                'published' => 'Gepubliceerd',
-                'not_published' => 'Verborgen',
-                'in_draft' => 'Bezig'
-            ],
+            'featured_status' => 'Uitgelicht',
         ],
         'category' => [
             'label' => 'Categorie',
             'label_plural' => 'Categorieën',
-            'published_status' => [
-                'title' => 'Gepubliceerd status',
-                'published' => 'Gepubliceerd',
-                'not_published' => 'Verborgen',
-                'draft' => 'In bewerking',
-            ],
         ],
         'faq' => [
             'label' => 'FAQ',
@@ -136,5 +121,17 @@ return [
     'permissions' => [
         'manage_categories' => 'Beheer FAQ-categorieën',
         'manage_faqs' => 'Beheer FAQs',
-    ]
+    ],
+
+    'enums' => [
+        'featured_status' => [
+            '0' => 'Niet uitgelicht',
+            '1' => 'Uitgelicht',
+        ],
+        'publish_status' => [
+            0 => 'Niet gepubliceerd',
+            1 => 'Gepubliceerd',
+            2 => 'In bewerking'
+        ]
+    ],
 ];

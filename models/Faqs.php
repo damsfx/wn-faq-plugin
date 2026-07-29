@@ -11,6 +11,7 @@ use Winter\Storm\Support\Facades\DB;
 
 class Faqs extends Model
 {
+    use \Aic\Faq\Classes\Traits\HasPublishStatus;
     use \Winter\Storm\Database\Traits\Validation;
 
     /**
@@ -266,5 +267,17 @@ class Faqs extends Model
 
         // get FAQs based on the query
         return $query->get();
+    }
+
+    //
+    // Getters
+    //
+
+    /**
+     * Set the URL for this record instance
+     */
+    public function getFeaturedStatusOptions(): array
+    {
+        return \Aic\Faq\Classes\Enums\FeaturedStatusEnum::namesTranslated();
     }
 }

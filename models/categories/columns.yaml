@@ -18,7 +18,7 @@ columns:
         invisible: true
 
     is_published:
-        label: aic.faq::lang.models.category.published_status.title
+        label: aic.faq::lang.models.general.published_status
         sortable: false
         type: publishedstatus
 

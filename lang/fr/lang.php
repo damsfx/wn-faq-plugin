@@ -99,31 +99,16 @@ return [
             'id' => 'ID',
             'name' => 'Nom',
             'none_options' => '-- Aucune --',
+            'published_status' => 'Publié',
             'slug' => 'Slug',
             'total' => 'Total',
             'created_at' => 'Créé le',
             'updated_at' => 'Mis à jour le',
-            'featured_status' => [
-                'title' => 'À la une',
-                'featured' => 'À la une',
-                'not_featured' => 'Non mise en avant'
-            ],
-            'published_status' => [
-                'title' => 'Publié',
-                'published' => 'Publié',
-                'not_published' => 'Caché',
-                'in_draft' => 'En cours'
-            ],
+            'featured_status' => 'À la une',
         ],
         'category' => [
             'label' => 'Catégorie',
             'label_plural' => 'Catégories',
-            'published_status' => [
-                'title' => 'Statut publication',
-                'published' => 'Publié',
-                'not_published' => 'Caché',
-                'draft' => 'En cours',
-            ],
         ],
         'faq' => [
             'label' => 'FAQ',
@@ -136,5 +121,17 @@ return [
     'permissions' => [
         'manage_categories' => 'Gérer les catégories de FAQ',
         'manage_faqs' => 'Gérer les FAQs'
-    ]
+    ],
+
+    'enums' => [
+        'featured_status' => [
+            '0' => 'Non mise en avant',
+            '1' => 'À la une',
+        ],
+        'publish_status' => [
+            0 => 'Non publié',
+            1 => 'Publié',
+            2 => 'En cours'
+        ]
+    ],
 ];

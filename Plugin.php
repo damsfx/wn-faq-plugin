@@ -92,12 +92,6 @@ class Plugin extends PluginBase
     {
         return [
             'publishedstatus' => function ($value) {
-                $text = [
-                    0 => 'not_published',
-                    1 => 'published',
-                    2 => 'in_draft'
-                ];
-
                 $class = [
                     0 => 'text-danger',
                     1 => 'text-success',
@@ -105,22 +99,17 @@ class Plugin extends PluginBase
                 ];
 
                 return '<span class="wn-icon-circle '. $class[$value] .'">'.
-                    Lang::get('aic.faq::lang.models.general.published_status.' . $text[$value])
+                    \Aic\Faq\Classes\Enums\PublishStatusEnum::nameTranslated($value)
                     .'</span>';
             },
             'featuredstatus' => function ($value) {
-                $text = [
-                    0 => 'not_featured',
-                    1 => 'featured'
-                ];
-
                 $class = [
                     0 => '',
                     1 => 'text-success'
                 ];
 
                 return '<span class="wn-icon-circle '. $class[$value] .'">'.
-                    Lang::get('aic.faq::lang.models.general.featured_status.' . $text[$value])
+                    \Aic\Faq\Classes\Enums\FeaturedStatusEnum::nameTranslated($value)
                     .'</span>';
             }
         ];

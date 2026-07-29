@@ -6,6 +6,7 @@ use Winter\Storm\Database\Model;
 
 class Categories extends Model
 {
+    use \Aic\Faq\Classes\Traits\HasPublishStatus;
     use \Aic\Faq\Classes\Traits\Urlable;
     use \Winter\Storm\Database\Traits\Validation;
 
