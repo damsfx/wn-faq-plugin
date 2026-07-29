@@ -1,7 +1,6 @@
 # FAQ plugin
 
-Create Frequently Asked Questions with ease!  
-These can be translated if you are using [Winter.Translate](https://github.com/wintercms/wn-translate-plugin).
+Create and manage Frequently Asked Questions with ease! Full support for translation via [Winter.Translate](https://github.com/wintercms/wn-translate-plugin) if needed.
 
 ![FAQ list](https://github.com/AIC-BV/wn-faq-plugin/blob/main/.github/assets/faq_list.jpg?raw=true)
 
@@ -11,7 +10,7 @@ These can be translated if you are using [Winter.Translate](https://github.com/w
 
 With the FAQ plugin, you can:
 
-- Full translation support if you are using Winter.Translate (optionnal)
+- Full translation support if you are using Winter.Translate (optional)
 - Manage your FAQ, questions and answers
 - Manage FAQ's categories, can be used to group FAQ's together
 - Control published FAQ's status
@@ -109,6 +108,7 @@ Special thanks to the WinterCMS maintainer team for making this possible:
 - [Jack Wilkinson](https://github.com/jaxwilko)
 - [Luke Towers](https://github.com/LukeTowers)
 - [Marc Jauvin](https://github.com/mjauvin)
+- [Damien Mathieu](https://github.com/damsfx)
 
 ***
 Make awesome sites with ❄ [WinterCMS](https://wintercms.com) !
