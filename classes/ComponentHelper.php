@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Aic\Faq\Classes;
 
 use Cms\Classes\Page;

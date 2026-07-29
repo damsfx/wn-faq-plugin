@@ -13,7 +13,8 @@ scopes:
         label: aic.faq::lang.models.category.label
         conditions: category_id in (:filtered)
         modelClass: Aic\Faq\Models\Categories
-        options: getCategoryOptions
+        options: getCategoriesListOptions
+        nameFrom: name
 
     is_published:
         label: aic.faq::lang.models.general.published_status.title

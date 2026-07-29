@@ -45,7 +45,7 @@ class Categories extends Model
     /**
      * Get the list of categories for dropdowns
      */
-    public function getCategoryOptions(): array
+    public function getCategoriesListOptions(): array
     {
         return Categories::orderBy('name', 'asc')->lists('name', 'id');
     }

@@ -23,8 +23,8 @@ fields:
         default: 1
 
 secondaryTabs:
-
     fields:
+
         created_at:
             label: aic.faq::lang.models.general.created_at
             type: datepicker
@@ -32,6 +32,7 @@ secondaryTabs:
             format: d/m/Y
             span: full
             disabled: true
+
         updated_at:
             label: aic.faq::lang.models.general.updated_at
             type: datepicker
