@@ -1,0 +1,48 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+tabs:
+    icons:
+        aic.faq::lang.models.settings.tabs.meta: icon-search
+        aic.faq::lang.models.settings.tabs.open_graph: icon-share-alt
+    fields:
+
+        _meta_section:
+            tab: aic.faq::lang.models.settings.tabs.meta
+            label: aic.faq::lang.models.settings.sections.meta
+            comment: aic.faq::lang.models.settings.sections.meta_comment
+            type: section
+
+        meta_title:
+            tab: aic.faq::lang.models.settings.tabs.meta
+            label: aic.faq::lang.models.settings.meta_title
+            type: text
+
+        meta_description:
+            tab: aic.faq::lang.models.settings.tabs.meta
+            label: aic.faq::lang.models.settings.meta_description
+            type: textarea
+            size: small
+
+        _og_section:
+            tab: aic.faq::lang.models.settings.tabs.open_graph
+            label: aic.faq::lang.models.settings.sections.open_graph
+            comment: aic.faq::lang.models.settings.sections.open_graph_comment
+            type: section
+
+        og_title:
+            tab: aic.faq::lang.models.settings.tabs.open_graph
+            label: aic.faq::lang.models.settings.og_title
+            type: text
+
+        og_description:
+            tab: aic.faq::lang.models.settings.tabs.open_graph
+            label: aic.faq::lang.models.settings.og_description
+            type: textarea
+            size: small
+
+        og_image:
+            tab: aic.faq::lang.models.settings.tabs.open_graph
+            label: aic.faq::lang.models.settings.og_image
+            type: mediafinder
+            mode: image

@@ -8,7 +8,9 @@ return [
 
     'menu' => [
         'faqs' => 'FAQs',
-        'categories' => 'Categorieën'
+        'categories' => 'Categorieën',
+        'settings' => 'FAQs',
+        'settings_description' => 'Beheer de instellingen van de FAQ-plugin',
     ],
 
     'controllers' => [
@@ -115,10 +117,31 @@ return [
             'label_plural' => 'FAQs',
             'question' => 'Vraag',
             'answer' => 'Antwoord',
-        ]
+        ],
+        'settings' => [
+            'title' => 'Titel',
+            'intro' => 'Intro',
+            'meta_title' => 'Meta titel',
+            'meta_description' => 'Meta beschrijving',
+            'og_title' => 'Open Graph titel',
+            'og_description' => 'Open Graph beschrijving',
+            'og_image' => 'Open Graph afbeelding',
+            'sections' => [
+                'meta' => 'Meta tags',
+                'meta_comment' => 'Meta tags gebruikt voor SEO-doeleinden. Wordt standaard gebruikt als het niet is ingesteld op een specifieke FAQ of categorie.',
+                'open_graph' => 'Open Graph',
+                'open_graph_comment' => 'Open Graph-tags gebruikt voor het delen op sociale media. Wordt standaard gebruikt als het niet is ingesteld op een specifieke FAQ of categorie.',
+            ],
+            'tabs' => [
+                'general' => 'Algemeen',
+                'meta' => 'Meta',
+                'open_graph' => 'Open Graph',
+            ],
+        ],
     ],
 
     'permissions' => [
+        'access_settings' => 'Toegang tot FAQ-instellingen',
         'manage_categories' => 'Beheer FAQ-categorieën',
         'manage_faqs' => 'Beheer FAQs',
     ],

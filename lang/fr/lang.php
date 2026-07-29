@@ -8,7 +8,9 @@ return [
 
     'menu' => [
         'faqs' => 'FAQs',
-        'categories' => 'Catégories'
+        'categories' => 'Catégories',
+        'settings' => 'FAQs',
+        'settings_description' => 'Gérez les paramètres du plugin FAQ',
     ],
 
     'controllers' => [
@@ -115,10 +117,31 @@ return [
             'label_plural' => 'FAQs',
             'question' => 'Question',
             'answer' => 'Réponse',
-        ]
+        ],
+        'settings' => [
+            'title' => 'Titre',
+            'intro' => 'Intro',
+            'meta_title' => 'Meta titre',
+            'meta_description' => 'Meta description',
+            'og_title' => 'Open Graph titre',
+            'og_description' => 'Open Graph description',
+            'og_image' => 'Open Graph image',
+            'sections' => [
+                'meta' => 'Meta tags',
+                'meta_comment' => 'Meta tags utilisées à des fins de SEO. Utilisées par défaut si elles ne sont pas définies sur une FAQ ou une catégorie spécifique.',
+                'open_graph' => 'Open Graph',
+                'open_graph_comment' => 'Open Graph tags utilisées pour le partage sur les réseaux sociaux. Utilisées par défaut si elles ne sont pas définies sur une FAQ ou une catégorie spécifique.',
+            ],
+            'tabs' => [
+                'general' => 'Général',
+                'meta' => 'Meta',
+                'open_graph' => 'Open Graph',
+            ],
+        ],
     ],
 
     'permissions' => [
+        'access_settings' => 'Accéder aux paramètres de la FAQ',
         'manage_categories' => 'Gérer les catégories de FAQ',
         'manage_faqs' => 'Gérer les FAQs'
     ],

@@ -3,9 +3,9 @@
 namespace Aic\Faq;
 
 use Backend\Facades\Backend;
-use Illuminate\Support\Facades\Lang;
 use Winter\User\Models\UserRole;
 use System\Classes\PluginBase;
+use System\Classes\SettingsManager;
 
 class Plugin extends PluginBase
 {
@@ -21,6 +21,41 @@ class Plugin extends PluginBase
             'description' => 'aic.faq::lang.plugin.description',
             'author'      => 'Meindert Stijfhals',
             'icon'        => 'icon-question-circle'
+        ];
+    }
+
+    /**
+     * Register the CMS components provided by this plugin
+     */
+    public function registerComponents(): array
+    {
+        return [
+            'Aic\Faq\Components\Categories' => 'faqCategories',
+            'Aic\Faq\Components\Faqs' => 'FAQ',
+        ];
+    }
+
+    /**
+     * Register the permissions provided by this plugin
+     */
+    public function registerPermissions(): array
+    {
+        return [
+            'access_settings' => [
+                'tab' => 'aic.faq::lang.menu.faqs',
+                'label' => 'aic.faq::lang.permissions.access_settings',
+                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
+            ],
+            'aic.faq.manage_categories' => [
+                'tab' => 'aic.faq::lang.menu.faqs',
+                'label' => 'aic.faq::lang.permissions.manage_categories',
+                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
+            ],
+            'aic.faq.manage_faqs' => [
+                'tab' => 'aic.faq::lang.menu.faqs',
+                'label' => 'aic.faq::lang.permissions.manage_faqs',
+                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
+            ],
         ];
     }
 
@@ -49,39 +84,35 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('aic/faq/categories'),
                         'icon'        => 'icon-folder-open-o',
                         'order'       => 200
-                    ]
+                    ],
+                    'settings' => [
+                        'label'       => 'aic.faq::lang.menu.settings',
+                        'url'         => Backend::url('system/settings/update/aic/faq/settings'),
+                        'class'       => 'Aic\Faq\Models\Settings',
+                        'icon'        => 'icon-cogs',
+                        'order'       => 300
+                    ],
                 ]
             ]
         ];
     }
 
     /**
-     * Register the permissions provided by this plugin
+     * Registers the settings provided by this plugin.
      */
-    public function registerPermissions(): array
+    public function registerSettings(): array
     {
         return [
-            'aic.faq.manage_categories' => [
-                'tab' => 'aic.faq::lang.menu.faqs',
-                'label' => 'aic.faq::lang.permissions.manage_categories',
-                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
-            ],
-            'aic.faq.manage_faqs' => [
-                'tab' => 'aic.faq::lang.menu.faqs',
-                'label' => 'aic.faq::lang.permissions.manage_faqs',
-                'roles' => [UserRole::CODE_DEVELOPER, UserRole::CODE_PUBLISHER],
-            ],
-        ];
-    }
-
-    /**
-     * Register the CMS components provided by this plugin
-     */
-    public function registerComponents(): array
-    {
-        return [
-            'Aic\Faq\Components\Categories' => 'faqCategories',
-            'Aic\Faq\Components\Faqs' => 'FAQ',
+            'settings' => [
+                'label'       => 'aic.faq::lang.menu.settings',
+                'description' => 'aic.faq::lang.menu.settings_description',
+                'icon'        => 'icon-question-circle',
+                'class'       => 'Aic\Faq\Models\Settings',
+                'category'    => SettingsManager::CATEGORY_CMS,
+                'order'       => 1500,
+                'keywords'    => 'faq questions answers',
+                'permissions' => ['aic.faq.access_settings']
+            ]
         ];
     }
 
