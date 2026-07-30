@@ -7,8 +7,6 @@
         <?= e(trans('aic.faq::lang.controllers.faqs.new')) ?>
     </a>
 
-    <?php if (Aic\Faq\Models\Faqs::count() > 0): ?>
-
     <!-- remove -->
     <button
         class="btn btn-danger wn-icon-trash-o"
@@ -23,7 +21,5 @@
         data-stripe-load-indicator>
         <?= e(trans('system::lang.plugins.remove')) ?>
     </button>
-
-    <?php endif ?>
 
 </div>
