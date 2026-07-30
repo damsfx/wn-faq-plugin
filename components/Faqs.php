@@ -60,7 +60,7 @@ class Faqs extends ComponentBase
                 'title'       => 'aic.faq::lang.components.faqs.properties.sort.title',
                 'description' => 'aic.faq::lang.components.faqs.properties.sort.description',
                 'type'        => 'dropdown',
-                'default'     => 'category_id asc',
+                'default'     => 'question asc',
             ],
             'categoryId' => [
                 'title'       => 'aic.faq::lang.components.faqs.properties.category.title',
@@ -105,8 +105,12 @@ class Faqs extends ComponentBase
      */
     public function getSortOptions(): array
     {
+        // Get Faqs::$allowedSorting to filter the options
         // Replace _asc and _desc with asc and desc in the keys of the options array
-        return collect(Lang::get('aic.faq::lang.components.faqs.properties.sort.options'))
+        $allowedSorting = Faq::$allowedSorting;
+
+        return collect(Lang::get('aic.faq::lang.sorting'))
+            ->filter(fn ($label, $key) => in_array(preg_replace('/_(asc|desc)$/', ' $1', $key), $allowedSorting))
             ->mapWithKeys(fn ($label, $key) => [preg_replace('/_(asc|desc)$/', ' $1', $key) => $label])
             ->all();
     }
@@ -206,13 +210,11 @@ class Faqs extends ComponentBase
 
             // prepare the array with the categories
             $categories = [];
-            if ($sort == 'category_id asc') {
-                $categories = Categories::orderBy('id', 'asc')->get();
-            } elseif ($sort == 'category_id desc') {
-                $categories = Categories::orderBy('id', 'desc')->get();
-            } else {
-                $categories = Categories::get();
-            }
+            $categories = match ($sort) {
+                'category_id asc' => Categories::orderBy('id', 'asc')->get(),
+                'category_id desc' => Categories::orderBy('id', 'desc')->get(),
+                default => Categories::get(),
+            };
 
             foreach ($categories as $category) {
                 $newArray[$category->id] = [

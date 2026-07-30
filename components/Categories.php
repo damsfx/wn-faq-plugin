@@ -52,6 +52,12 @@ class Categories extends ComponentBase
                 'type' => 'string',
                 'default' => '{{ :slug }}',
             ],
+            'sort' => [
+                'title'       => 'aic.faq::lang.components.categories.properties.sort.title',
+                'description' => 'aic.faq::lang.components.categories.properties.sort.description',
+                'type'        => 'dropdown',
+                'default'     => 'sort_order asc',
+            ],
             'faqPage' => [
                 'title' => 'aic.faq::lang.components.categories.properties.faq_page.title',
                 'description' => 'aic.faq::lang.components.categories.properties.faq_page.description',
@@ -65,6 +71,21 @@ class Categories extends ComponentBase
                 'group' => 'aic.faq::lang.components.categories.properties.links',
             ],
         ];
+    }
+
+    /**
+     * Sort options getter
+     */
+    public function getSortOptions(): array
+    {
+        // Get Faqs::$allowedSorting to filter the options
+        // Replace _asc and _desc with asc and desc in the keys of the options array
+        $allowedSorting = FaqCategories::$allowedSorting;
+
+        return collect(Lang::get('aic.faq::lang.sorting'))
+            ->filter(fn ($label, $key) => in_array(preg_replace('/_(asc|desc)$/', ' $1', $key), $allowedSorting))
+            ->mapWithKeys(fn ($label, $key) => [preg_replace('/_(asc|desc)$/', ' $1', $key) => $label])
+            ->all();
     }
 
     /**
@@ -89,7 +110,7 @@ class Categories extends ComponentBase
      */
     public function onRun()
     {
-        $this->currentCategorySlug = $this->page['currentCategorySlug'] = $this->property('slug');
+        $this->currentCategorySlug = $this->page['currentCategorySlug'] = $this->property('categorySlug');
         $this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage');
         $this->faqPage = $this->page['faqPage'] = $this->property('faqPage');
         $this->categories = $this->page['categories'] = $this->loadCategories();
@@ -103,8 +124,17 @@ class Categories extends ComponentBase
     protected function loadCategories(): Collection
     {
         $categories = FaqCategories::withCount('faqs')
-            ->where('is_published', 1)
-            ->get();
+            ->where('is_published', 1);
+
+        if ($sort = $this->property('sort')) {
+            if ($sort === 'random') {
+                $categories = $categories->inRandomOrder();
+            } else {
+                $categories = $categories->orderByRaw($sort);
+            }
+        }
+
+        $categories = $categories->get();
 
         // Add a special "All" category at the beginning of the collection
         $allCategory = new FaqCategories();

@@ -1,6 +1,10 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
         <li><?= e(trans('aic.faq::lang.menu.faqs')) ?></li>
+        <?php
+        /*
+        Remove this to avoid additional database queries.
+        Replace it with a real statistics panel if necessary.
         <li>
             <span class='text-info'><strong><?= Aic\Faq\Models\Faqs::all()->count() ?></strong> <?= strtoupper(e(trans('aic.faq::lang.models.general.total'))) ?></span>
             &nbsp; <i class='icon-long-arrow-right'></i> &nbsp;
@@ -24,8 +28,9 @@
                     }
                 }
             ?>
-
         </li>
+        */
+        ?>
     </ul>
 <?php Block::endPut() ?>
 

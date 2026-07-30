@@ -12,14 +12,18 @@ return [
     ],
 
     'controllers' => [
-        'buttons' => [
-            'return' => 'Vorige'
-        ],
         'faqs' => [
-            'new' => 'Nieuwe FAQ'
+            'new' => 'Nieuwe FAQ',
+            'create' => 'Nieuwe FAQ',
+            'update' => 'FAQ bijwerken',
+            'return_to_faqs' => 'Terug naar FAQs',
         ],
         'categories' => [
-            'new' => 'Nieuwe categorie'
+            'new' => 'Nieuwe categorie',
+            'create' => 'Nieuwe categorie',
+            'update' => 'Categorie bijwerken',
+            'reorder' => 'Herschik categorieën',
+            'return_to_categories' => 'Terug naar categorieën',
         ]
     ],
 
@@ -41,6 +45,10 @@ return [
                 'slug' => [
                     'title' => 'Categorie-slug',
                     'description' => 'Slug van de actieve categorie, gebruikt om die te markeren in de lijst'
+                ],
+                'sort' => [
+                    'title'       => 'Sorteer',
+                    'description' => 'Kies de weergave volgorde van de categorieën',
                 ],
             ],
         ],
@@ -79,12 +87,6 @@ return [
                 'sort' => [
                     'title'       => 'Sorteer',
                     'description' => 'Kies de weergave volgorde van de FAQs',
-                    'options'     => [
-                        'category_id_asc'  => 'Categorie oplopend',
-                        'category_id_desc' => 'Categorie aflopend',
-                        'created_at_asc'   => 'Aangemaakt op oplopend',
-                        'created_at_desc'  => 'Aangemaakt op aflopend',
-                    ]
                 ],
                 'translated' => [
                     'title' => 'Enkel vertaalde FAQs',
@@ -133,5 +135,21 @@ return [
             1 => 'Gepubliceerd',
             2 => 'In bewerking'
         ]
+    ],
+
+    'sorting' => [
+        'sort_order_asc'  => 'Sorteervolgorde ↑ (opl)',
+        'sort_order_desc' => 'Sorteervolgorde ↓ (afl)',
+        'question_asc'  => 'Vraag A→Z',
+        'question_desc' => 'Vraag Z→A',
+        'name_asc'  => 'Naam A→Z',
+        'name_desc' => 'Naam Z→A',
+        'category_id_asc'  => 'Categorie (id) ↑ (opl)',
+        'category_id_desc' => 'Categorie (id) ↓ (afl)',
+        'created_at_asc'   => 'Aangemaakt op ↑ (opl)',
+        'created_at_desc'  => 'Aangemaakt op ↓ (afl)',
+        'updated_at_asc'   => 'Aangepast op ↑ (opl)',
+        'updated_at_desc'  => 'Aangepast op ↓ (afl)',
+        'random'           => 'Willekeurig',
     ],
 ];

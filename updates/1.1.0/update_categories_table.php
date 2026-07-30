@@ -7,6 +7,8 @@ use Winter\Storm\Support\Str;
 
 return new class extends Migration
 {
+    protected $migrationTable = 'aic_faq_categories';
+
     /**
      * Run the migrations.
      *
@@ -14,30 +16,31 @@ return new class extends Migration
      */
     public function up()
     {
-        if (!Schema::hasColumn('aic_faq_categories', 'slug')) {
-            Schema::table('aic_faq_categories', function ($table) {
+        if (!Schema::hasColumn($this->migrationTable, 'slug')) {
+            Schema::table($this->migrationTable, function ($table) {
                 $table->string('slug')->after('name')->nullable()->index();
             });
         }
 
-        if (!Schema::hasColumn('aic_faq_categories', 'sort_order')) {
-            Schema::table('aic_faq_categories', function ($table) {
+        if (!Schema::hasColumn($this->migrationTable, 'sort_order')) {
+            Schema::table($this->migrationTable, function ($table) {
                 $table->integer('sort_order')->after('slug')->default(1)->index();
             });
         }
 
-        if (!Schema::hasColumn('aic_faq_categories', 'is_published')) {
-            Schema::table('aic_faq_categories', function ($table) {
+        if (!Schema::hasColumn($this->migrationTable, 'is_published')) {
+            Schema::table($this->migrationTable, function ($table) {
                 $table->integer('is_published')->after('sort_order')->default(1);
             });
         }
 
         // generate slugs and sort order for existing categories
-        $categories = \DB::table('aic_faq_categories')->whereNull('slug')->get();
+        $categories = \DB::table($this->migrationTable)->whereNull('slug')->get();
+        $sortOrder = 1;
         foreach ($categories as $category) {
-            \DB::table('aic_faq_categories')->where('id', $category->id)->update([
+            \DB::table($this->migrationTable)->where('id', $category->id)->update([
                 'slug' => Str::slug($category->name),
-                'sort_order' => $category->id,
+                'sort_order' => $sortOrder++,
             ]);
         }
     }
@@ -50,8 +53,8 @@ return new class extends Migration
     public function down()
     {
         foreach (['sort_order', 'is_published', 'slug'] as $column) {
-            if (Schema::hasColumn('aic_faq_categories', $column)) {
-                Schema::table('aic_faq_categories', function ($table) use ($column) {
+            if (Schema::hasColumn($this->migrationTable, $column)) {
+                Schema::table($this->migrationTable, function ($table) use ($column) {
                     $table->dropColumn($column);
                 });
             }

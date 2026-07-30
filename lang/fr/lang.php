@@ -12,14 +12,18 @@ return [
     ],
 
     'controllers' => [
-        'buttons' => [
-            'return' => 'Retour'
-        ],
         'faqs' => [
-            'new' => 'Nouvelle FAQ'
+            'new' => 'Nouvelle FAQ',
+            'create' => 'Créer une FAQ',
+            'update' => 'Mettre à jour la FAQ',
+            'return_to_faqs' => 'Retour aux FAQs',
         ],
         'categories' => [
-            'new' => 'Nouvelle catégorie'
+            'new' => 'Nouvelle catégorie',
+            'create' => 'Créer une catégorie',
+            'update' => 'Mettre à jour la catégorie',
+            'reorder' => 'Réorganiser les catégories',
+            'return_to_categories' => 'Retour aux catégories',
         ]
     ],
 
@@ -41,6 +45,10 @@ return [
                 'slug' => [
                     'title' => 'Slug de catégorie',
                     'description' => 'Slug de la catégorie active, utilisé pour la mettre en évidence dans la liste'
+                ],
+                'sort' => [
+                    'title'       => 'Tri',
+                    'description' => 'Choisissez l’ordre d’affichage des catégories',
                 ],
             ],
         ],
@@ -79,12 +87,6 @@ return [
                 'sort' => [
                     'title'       => 'Tri',
                     'description' => 'Choisissez l’ordre d’affichage des FAQs',
-                    'options'     => [
-                        'category_id_asc'  => 'Catégorie croissante',
-                        'category_id_desc' => 'Catégorie décroissante',
-                        'created_at_asc'   => 'Créé le croissant',
-                        'created_at_desc'  => 'Créé le décroissant',
-                    ]
                 ],
                 'translated' => [
                     'title' => 'FAQs traduites uniquement',
@@ -133,5 +135,21 @@ return [
             1 => 'Publié',
             2 => 'En cours'
         ]
+    ],
+
+    'sorting' => [
+        'sort_order_asc'  => 'Ordre de tri ↑ (asc)',
+        'sort_order_desc' => 'Ordre de tri ↓ (desc)',
+        'question_asc'  => 'Question A→Z',
+        'question_desc' => 'Question Z→A',
+        'name_asc'  => 'Nom A→Z',
+        'name_desc' => 'Nom Z→A',
+        'category_id_asc'  => 'Catégorie (id) ↑ (asc)',
+        'category_id_desc' => 'Catégorie (id) ↓ (desc)',
+        'created_at_asc'   => 'Date création ↑ (asc)',
+        'created_at_desc'  => 'Date création ↓ (desc)',
+        'updated_at_asc'   => 'Date mise à jour ↑ (asc)',
+        'updated_at_desc'  => 'Date mise à jour ↓ (desc)',
+        'random'           => 'Aléatoire',
     ],
 ];

@@ -13,6 +13,7 @@ class Faqs extends Model
 {
     use \Aic\Faq\Classes\Traits\HasPublishStatus;
     use \Winter\Storm\Database\Traits\Validation;
+    use \Winter\Storm\Database\Traits\Sortable;
 
     /**
      * @var string The database table used by the model.
@@ -60,11 +61,30 @@ class Faqs extends Model
      * @var array
      */
     public static $allowedSorting = [
+        // Sorting relationships will be available with Winter v1.2.13+
+        // 'sort_order asc',
+        // 'sort_order desc',
+        'question asc',
+        'question desc',
         'category_id asc',
         'category_id desc',
         'created_at asc',
-        'created_at desc'
+        'created_at desc',
+        'updated_at asc',
+        'updated_at desc',
+        'random',
     ];
+
+
+    /**
+     * Before validation event
+     */
+    public function beforeValidate()
+    {
+        if ($this->sort_order === null) {
+            $this->sort_order = static::where('category_id', $this->category_id)->max('sort_order') + 1;
+        }
+    }
 
     /**
      * Check whether Winter.Translate is available and its required tables exist.
@@ -198,18 +218,16 @@ class Faqs extends Model
      */
     public function scopeSortFAQs(Builder $query, string $sort): Builder
     {
-        foreach (self::$allowedSorting as $sorter) {
-            // check if sorter is equal to sort
-            if ($sorter != $sort) {
-                continue;
-            };
-
-            // split sort method
-            $sort = explode(' ', $sort);
-
-            // sort the query
-            $query->orderBy($sort[0], $sort[1]);
+        if (!in_array($sort, self::$allowedSorting)) {
+            return $query;
         }
+
+        if ($sort === 'random') {
+            return $query->inRandomOrder();
+        }
+
+        [$column, $direction] = explode(' ', $sort);
+        $query->orderBy($column, $direction);
 
         return $query;
     }

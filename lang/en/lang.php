@@ -12,14 +12,18 @@ return [
     ],
 
     'controllers' => [
-        'buttons' => [
-            'return' => 'Return'
-        ],
         'faqs' => [
-            'new' => 'New FAQ'
+            'new' => 'New FAQ',
+            'create' => 'Create FAQ',
+            'update' => 'Update FAQ',
+            'return_to_faqs' => 'Return to FAQs',
         ],
         'categories' => [
-            'new' => 'New category'
+            'new' => 'New category',
+            'create' => 'Create category',
+            'update' => 'Update category',
+            'reorder' => 'Reorder categories',
+            'return_to_categories' => 'Return to categories',
         ]
     ],
 
@@ -30,18 +34,22 @@ return [
             'all_label' => 'All questions',
             'properties' => [
                 'links' => 'Links',
-                'slug' => [
-                    'title' => 'Category slug',
-                    'description' => 'Slug of the active category, used to highlight it in the list'
+                'category_page' => [
+                    'title' => 'Category page',
+                    'description' => 'Page that shows the FAQs of one category'
                 ],
                 'faq_page' => [
                     'title' => 'Overview page',
                     'description' => 'Page that shows all FAQs'
                 ],
-                'category_page' => [
-                    'title' => 'Category page',
-                    'description' => 'Page that shows the FAQs of one category'
-                ]
+                'slug' => [
+                    'title' => 'Category slug',
+                    'description' => 'Slug of the active category, used to highlight it in the list'
+                ],
+                'sort' => [
+                    'title'       => 'Sort',
+                    'description' => 'Choose the display order of the categories',
+                ],
             ],
         ],
         'faqs' => [
@@ -79,12 +87,6 @@ return [
                 'sort' => [
                     'title'       => 'Sort',
                     'description' => 'Choose the display order of the FAQs',
-                    'options'     => [
-                        'category_id_asc'  => 'Category ascending',
-                        'category_id_desc' => 'Category descending',
-                        'created_at_asc'   => 'Created at ascending',
-                        'created_at_desc'  => 'Created at descending',
-                    ]
                 ],
                 'translated' => [
                     'title' => 'Translated FAQs only',
@@ -133,5 +135,21 @@ return [
             1 => 'Published',
             2 => 'In draft'
         ],
-    ]
+    ],
+
+    'sorting' => [
+        'sort_order_asc'  => 'Sort order tri ↑ (asc)',
+        'sort_order_desc' => 'Sort order tri ↓ (desc)',
+        'question_asc'  => 'Question A→Z',
+        'question_desc' => 'Question Z→A',
+        'name_asc'  => 'Name A→Z',
+        'name_desc' => 'Name Z→A',
+        'category_id_asc'  => 'Category (id) ↑ (asc)',
+        'category_id_desc' => 'Category (id) ↓ (desc)',
+        'created_at_asc'   => 'Created at ↑ (asc)',
+        'created_at_desc'  => 'Created at ↓ (desc)',
+        'updated_at_asc'   => 'Updated at ↑ (asc)',
+        'updated_at_desc'  => 'Updated at ↓ (desc)',
+        'random'           => 'Random',
+    ],
 ];

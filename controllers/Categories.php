@@ -9,7 +9,8 @@ class Categories extends Controller
 {
     public $implement = [
         \Backend\Behaviors\FormController::class,
-        \Backend\Behaviors\ListController::class
+        \Backend\Behaviors\ListController::class,
+        \Backend\Behaviors\ReorderController::class,
     ];
 
     /**
