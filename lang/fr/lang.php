@@ -80,6 +80,10 @@ return [
                     'description' => 'Nombre minimum de résultats à afficher dans le champ de recherche. Doit être un nombre.',
                     'validationMessage' => 'Doit être un nombre',
                 ],
+                'no_faqs' => [
+                    'title'       => 'Message pour aucune FAQ',
+                    'description' => 'Message à afficher lorsqu’aucune FAQ n’est trouvée.',
+                ],
                 'search' => [
                     'title' => 'Reccherche',
                     'description' => 'Activer le champ de recherche pour les FAQs.',

@@ -80,6 +80,10 @@ return [
                     'description' => 'Minimum amount of results for the search field to show. Must be a number',
                     'validationMessage' => 'Must be a number',
                 ],
+                'no_faqs' => [
+                    'title'       => 'No FAQs message',
+                    'description' => 'Message to show when no FAQs are found.',
+                ],
                 'search' => [
                     'title' => 'Search enabled',
                     'description' => 'Enable the search functionality',

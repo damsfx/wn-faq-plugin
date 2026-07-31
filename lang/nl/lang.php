@@ -80,6 +80,10 @@ return [
                     'description' => 'De minimum hoeveelheid zoek resultaten om het zoek veld weer te geven. Moet een nummer zijn.',
                     'validationMessage' => 'Moet een nummer zijn',
                 ],
+                'no_faqs' => [
+                    'title' => 'Geen FAQ\'s gevonden',
+                    'description' => 'Bericht dat wordt weergegeven als er geen FAQ\'s zijn gevonden',
+                ],
                 'search' => [
                     'title' => 'Zoeken inschakelen',
                     'description' => 'Scakel de zoek functionaliteit in',

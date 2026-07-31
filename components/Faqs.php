@@ -36,6 +36,12 @@ class Faqs extends ComponentBase
     public string $searchQuery;
 
     /**
+     * The message to show when no FAQs are found
+     */
+    public string $noFaqsMessage;
+
+
+    /**
      * Gets the details for the component
      *
      * @return array<string, string>
@@ -97,6 +103,13 @@ class Faqs extends ComponentBase
                 'validationMessage' => 'aic.faq::lang.components.faqs.properties.minSearchResults.validationMessage',
                 'group'             => 'aic.faq::lang.components.faqs.properties.search_group',
             ],
+            'noFaqsMessage' => [
+                'title'             => 'aic.faq::lang.components.faqs.properties.no_faqs.title',
+                'description'       => 'aic.faq::lang.components.faqs.properties.no_faqs.description',
+                'type'              => 'string',
+                'default'           => Lang::get('aic.faq::lang.components.faqs.no_results'),
+                'showExternalParam' => false
+            ],
         ];
     }
 
@@ -120,10 +133,9 @@ class Faqs extends ComponentBase
      */
     public function onRun(): void
     {
-        $this->isSearch = (bool) $this->property('isSearch');
-        $this->searchQuery = (string) trim(input('q'));
-
+        $this->prepareVars();
         $categoryId = (int) $this->property('categoryId');
+
         if ($categoryId !== 0 && !Categories::whereKey($categoryId)->exists()) {
             $this->canShowSearch = false;
             $this->faqs = new Collection();
@@ -132,31 +144,19 @@ class Faqs extends ComponentBase
             return;
         }
 
-        $this->canShowSearch = $this->showSearch();
-
         $this->faqs = $this->getFAQs();
         $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);
+        $this->canShowSearch = $this->showSearch();
     }
 
     /**
-     * Determine whether the search form should be shown.
+     * Prepare variables for the page and the component
      */
-    protected function showSearch(): bool
+    protected function prepareVars()
     {
-        if (!$this->isSearch) {
-            return false;
-        }
-
-        $minSearchResults = (int) $this->property('minSearchResults');
-
-        $faqsWithoutSearch = Faq::listFrontEnd([
-            'categoryId'   => (int) $this->property('categoryId'),
-            'isFeatured'   => (int) $this->property('isFeatured'),
-            'isSearch'     => false,
-            'isTranslated' => (int) $this->property('isTranslated')
-        ])->count();
-
-        return $faqsWithoutSearch >= $minSearchResults;
+        $this->noFaqsMessage = $this->page['noFaqsMessage'] = (string) $this->property('noFaqsMessage');
+        $this->isSearch      = $this->page['isSearch']      = (bool) $this->property('isSearch');
+        $this->searchQuery   = $this->page['searchQuery']   = (string) trim(input('q'));
     }
 
     /**
@@ -164,7 +164,7 @@ class Faqs extends ComponentBase
      */
     protected function getFAQs(): Collection
     {
-        $faqs = Faq::listFrontEnd([
+        $faqs = Faq::with('category')->listFrontEnd([
             'sort'         => $this->property('sort'),
             'categoryId'   => (int) $this->property('categoryId'),
             'isFeatured'   => (int) $this->property('isFeatured'),
@@ -251,9 +251,39 @@ class Faqs extends ComponentBase
                 };
             }
 
+
+            debug($this->faqs, $newArray, 'faqsPerCategory');
+
             // return the new array
             return $newArray;
         }
+    }
+
+    /**
+     * Determine whether the search form should be shown.
+     */
+    protected function showSearch(): bool
+    {
+        if (!$this->isSearch) {
+            return false;
+        }
+
+        $minSearchResults = (int) $this->property('minSearchResults');
+
+        // Reuse the existing FAQs collection if no search query is provided,
+        // otherwise fetch the count of FAQs without search applied.
+        $faqsWithoutSearch = $this->faqs->count();
+
+        if ($this->searchQuery !== '') {
+            $faqsWithoutSearch = Faq::listFrontEnd([
+                'categoryId'   => (int) $this->property('categoryId'),
+                'isFeatured'   => (int) $this->property('isFeatured'),
+                'isSearch'     => false,
+                'isTranslated' => (int) $this->property('isTranslated')
+            ])->count();
+        }
+
+        return $faqsWithoutSearch >= $minSearchResults;
     }
 
     /**

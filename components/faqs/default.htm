@@ -27,7 +27,7 @@
         </div>
     {% endfor %}
 {% else %}
-    <p class='no-faqs-message'>{{ 'aic.faq::lang.components.faqs.no_results' | trans }}</p>
+    <p class='no-faqs-message'>{{ __SELF__.noFaqsMessage }}</p>
 {% endif %}
 </div>
 
