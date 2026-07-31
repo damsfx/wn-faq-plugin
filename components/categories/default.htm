@@ -11,7 +11,7 @@
                     <a href='{{ category.url }}'
                         {{- currentCategorySlug == category.slug ? (' class="active"' | raw) : '' -}}
                     >
-                        {{ category.name }} ({{ category.faqs_count }})
+                        {{ category.name }} <span class="count">({{ category.faqs_count }})</span>
                     </a>
                 </li>
             {% endfor %}
