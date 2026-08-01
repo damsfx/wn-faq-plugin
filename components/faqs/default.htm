@@ -1,3 +1,4 @@
+{% set faqsPerCategory = __SELF__.faqsPerCategory %}
 {% if __SELF__.canShowSearch %}
     <aside class='aic-search'>
         <form>
@@ -10,12 +11,12 @@
 {% endif %}
 
 <div class='aic-faqs'>
-{% if __SELF__.faqsPerCategory | length > 0 %}
-    {% for item in __SELF__.faqsPerCategory %}
+{% if faqsPerCategory | length > 0 %}
+    {% for categoryName, faqsInCategory in faqsPerCategory %}
         <div class='faq-category'>
-            <h2>{{ item.categoryName }}</h2>
+            <h2>{{ categoryName }}</h2>
             <ul>
-            {% for faq in item.faqs %}
+            {% for faq in faqsInCategory %}
                 <li>
                     <details>
                         <summary>{{ faq.question }}</summary>
@@ -26,24 +27,12 @@
             </ul>
         </div>
     {% endfor %}
+
+    {% put scripts %}
+    <script type="application/ld+json">{{ __SELF__.jsonLd | raw }}</script>
+    {% endput %}
 {% else %}
     <p class='no-faqs-message'>{{ __SELF__.noFaqsMessage }}</p>
 {% endif %}
 </div>
 
-{% if __SELF__.faqsPerCategory | length > 0 %}
-    {% put scripts %}
-    <script type="application/ld+json">{
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [{% for faq in __SELF__.faqs %}{
-            "@type": "Question",
-            "name": "{{ faq.question }}",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "{{ faq.answer | md }}"
-            }
-        }{{ loop.last ? '' : ', ' }}{% endfor %}]
-    }</script>
-    {% endput %}
-{% endif %}

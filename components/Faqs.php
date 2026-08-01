@@ -13,12 +13,17 @@ class Faqs extends ComponentBase
     /**
      * A collection of faqs to display
      */
-    public Collection|null $faqs;
+    private Collection|null $faqs;
 
     /**
      * Array of faq grouped by category
      */
     public array $faqsPerCategory;
+
+    /**
+     * JSON-LD structured data for the FAQs
+     */
+    public string $jsonLd = '';
 
     /**
      * Whether to show the search form
@@ -129,6 +134,21 @@ class Faqs extends ComponentBase
     }
 
     /**
+     * Returns all categories as dropdown options.
+     *
+     * @return array<int, string>
+     */
+    public function getCategoryIdOptions(): array
+    {
+        // return all categories for the dropdown
+        $categories = Categories::lists('name', 'id');
+        $categories[0] = 'aic.faq::lang.components.faqs.properties.category.all';
+        ksort($categories);
+
+        return $categories;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function onRun(): void
@@ -145,7 +165,8 @@ class Faqs extends ComponentBase
         }
 
         $this->faqs = $this->getFAQs();
-        $this->faqsPerCategory = $this->faqsPerCategory($this->faqs);
+        $this->faqsPerCategory = $this->faqsPerCategory();
+        $this->jsonLd = $this->getJsonLd();
         $this->canShowSearch = $this->showSearch();
     }
 
@@ -179,84 +200,19 @@ class Faqs extends ComponentBase
     /**
      * Group FAQs by category for frontend rendering.
      *
-     * @param Collection $faqs
      * @return array<int|string, array<string, mixed>>
      */
-    protected function faqsPerCategory(Collection $faqs): array
+    protected function faqsPerCategory(): array
     {
-        // get properties
-        $categoryId = (int) $this->property('categoryId');
-        $sort = $this->property('sort');
+        // Group the FAQs from $this->faqs by category
+        // and sort them according to the specified sort order
+        $groupedFaqs = $this->faqs
+            // ->groupBy('category_id')
+            ->groupBy(fn ($faq) => $faq->category->name)
+            ->sortBy(fn ($faqsInCategory) => $faqsInCategory->first()->category->sort_order);
 
-        // get category name
-        $categoryName = $this->getCategoryName($categoryId);
-
-        if ($categoryId !== 0 && $categoryName === null) {
-            return [];
-        }
-
-        // if category name is not 0 (all)
-        if ($categoryName !== 0) {
-            // return the FAQs with their category
-            return [
-                [
-                    'categoryName' => $categoryName,
-                    'faqs' => $faqs
-                ]
-            ];
-        } else {
-            // create new array
-            $newArray = [];
-
-            // prepare the array with the categories
-            $categories = [];
-            $categories = match ($sort) {
-                'category_id asc' => Categories::orderBy('id', 'asc')->get(),
-                'category_id desc' => Categories::orderBy('id', 'desc')->get(),
-                default => Categories::get(),
-            };
-
-            foreach ($categories as $category) {
-                $newArray[$category->id] = [
-                    'categoryName' => $category->name,
-                    'faqs' => []
-                ];
-            }
-
-            // push the faq to the right category
-            foreach ($faqs as $faq) {
-                $categoryKey = $faq->category_id;
-
-                if (!array_key_exists($categoryKey, $newArray)) {
-                    $newArray[$categoryKey] = [
-                        'categoryName' => Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label'),
-                        'faqs' => []
-                    ];
-                }
-
-                $newArray[$categoryKey]['faqs'][] = $faq;
-
-                // if categoryName doesn't exist
-                // set no_category_label
-                if (!array_key_exists('categoryName', $newArray[$categoryKey])) {
-                    $newArray[$categoryKey]['categoryName'] = Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label');
-                }
-            }
-
-            // remove empty categories
-            foreach ($newArray as $key => $value) {
-                $amountFaqs = count($value['faqs']);
-                if ($amountFaqs == 0) {
-                    unset($newArray[$key]);
-                };
-            }
-
-
-            debug($this->faqs, $newArray, 'faqsPerCategory');
-
-            // return the new array
-            return $newArray;
-        }
+        // return the new array
+        return $groupedFaqs->toArray();
     }
 
     /**
@@ -287,34 +243,38 @@ class Faqs extends ComponentBase
     }
 
     /**
-     * Resolve the selected category name.
+     * Generate JSON-LD structured data for the FAQs.
      *
-     * @param int $categoryId
-     * @return string|int|null
+     * @return string
      */
-    protected function getCategoryName(int $categoryId): string|int|null
+    public function getJsonLd(): string
     {
-        if ($categoryId == 0) {
-            return 0;
-        }
-
-        $category = Categories::find($categoryId);
-
-        return $category?->name;
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $this->faqs->flatten(1)->map(function ($faq) {
+                return [
+                    '@type' => 'Question',
+                    'name' => $faq->question,
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => $this->cleanHtmlWhitespace($faq->answer),
+                    ],
+                ];
+            })->values()->toArray(),
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 
     /**
-     * Returns all categories as dropdown options.
+     * Collapse line breaks and repeated whitespace coming from the stored
+     * HTML's own indentation/line wrapping into single spaces, so the
+     * generated JSON-LD doesn't carry cosmetic \n noise from the source markup.
      *
-     * @return array<int, string>
+     * @param string $html
+     * @return string
      */
-    public function getCategoryIdOptions(): array
+    protected function cleanHtmlWhitespace(string $html): string
     {
-        // return all categories for the dropdown
-        $categories = Categories::lists('name', 'id');
-        $categories[0] = 'aic.faq::lang.components.faqs.properties.category.all';
-        ksort($categories);
-
-        return $categories;
+        return trim(preg_replace('/\s+/', ' ', $html));
     }
 }
