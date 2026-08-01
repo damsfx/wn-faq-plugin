@@ -1,0 +1,22 @@
+{% set searchTerm = __SELF__.searchQuery %}
+{% if faqsPerCategory | length > 0 %}
+    {% for categoryName, faqsInCategory in faqsPerCategory %}
+        <div class="faq-category">
+            <h2>{{ categoryName }}</h2>
+            <ul>
+            {% for faq in faqsInCategory %}
+                {% set question = searchTerm ? faq.question | replace({(searchTerm): '<mark>' ~ searchTerm ~ '</mark>'}) : faq.question %}
+                {% set answer = searchTerm ? faq.answer | replace({(searchTerm): '<mark>' ~ searchTerm ~ '</mark>'}) : faq.answer %}
+                <li>
+                    <details>
+                        <summary><span>{{ question | raw }}</span></summary>
+                        <div>{{ answer | raw }}</div>
+                    </details>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% else %}
+    <p class='no-faqs-message'>{{ __SELF__.noFaqsMessage }}</p>
+{% endif %}

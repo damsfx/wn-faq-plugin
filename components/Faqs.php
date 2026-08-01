@@ -242,12 +242,30 @@ class Faqs extends ComponentBase
         return $faqsWithoutSearch >= $minSearchResults;
     }
 
+    //
+    // Ajax handlers
+    //
+    public function onSearch(): array
+    {
+        $this->prepareVars();
+        $this->faqs = $this->getFAQs();
+        $this->faqsPerCategory = $this->faqsPerCategory();
+
+        return [
+            '#'. input('componentId') => $this->renderPartial('@items.htm', [
+                'faqsPerCategory' => $this->faqsPerCategory,
+                'searchQuery' => $this->searchQuery,
+
+            ]),
+        ];
+    }
+
     /**
      * Generate JSON-LD structured data for the FAQs.
      *
      * @return string
      */
-    public function getJsonLd(): string
+    protected function getJsonLd(): string
     {
         return json_encode([
             '@context' => 'https://schema.org',

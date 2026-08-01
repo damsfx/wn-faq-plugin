@@ -1,38 +1,25 @@
 {% set faqsPerCategory = __SELF__.faqsPerCategory %}
+{% set componentId = __SELF__.id %}
 {% if __SELF__.canShowSearch %}
     <aside class='aic-search'>
-        <form>
-            <input type='text' id='{{ __SELF__.id }}' name='q' placeholder='{{ 'aic.faq::lang.components.faqs.search_placeholder' | trans }}' value='{{ __SELF__.searchQuery }}'>
-            <label for='{{ __SELF__.id }}' style='pointer-events: none;'>
-                <button type='submit'>{{ 'aic.faq::lang.components.faqs.search_button' | trans }}</button>
+        <form data-request="onSearch" data-request-data="componentId: '{{ componentId }}'" data-request-loading>
+            <input type="text" id="search-{{ componentId }}" name="q" placeholder="{{ 'aic.faq::lang.components.faqs.search_placeholder' | trans }}" value="{{ __SELF__.searchQuery }}"
+                data-track-input="500"
+            >
+            <label for="search-{{ componentId }}" style="pointer-events: none;">
+                <button type="submit">{{ 'aic.faq::lang.components.faqs.search_button' | trans }}</button>
             </label>
         </form>
     </aside>
 {% endif %}
 
-<div class='aic-faqs'>
-{% if faqsPerCategory | length > 0 %}
-    {% for categoryName, faqsInCategory in faqsPerCategory %}
-        <div class='faq-category'>
-            <h2>{{ categoryName }}</h2>
-            <ul>
-            {% for faq in faqsInCategory %}
-                <li>
-                    <details>
-                        <summary>{{ faq.question }}</summary>
-                        <div>{{ faq.answer | md }}</div>
-                    </details>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-    {% endfor %}
+<div class="aic-faqs" id="{{ componentId }}">
+    {% partial '@items' faqsPerCategory=faqsPerCategory %}
+</div>
 
+
+{% if faqsPerCategory | length > 0 %}
     {% put scripts %}
     <script type="application/ld+json">{{ __SELF__.jsonLd | raw }}</script>
     {% endput %}
-{% else %}
-    <p class='no-faqs-message'>{{ __SELF__.noFaqsMessage }}</p>
 {% endif %}
-</div>
-
