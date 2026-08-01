@@ -8,6 +8,10 @@ columns:
         label: aic.faq::lang.models.general.id
         invisible: true
 
+    sort_order:
+        label: Sort order
+        invisible: true
+
     name:
         label: aic.faq::lang.models.general.name
         searchable: true
