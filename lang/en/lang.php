@@ -97,7 +97,17 @@ return [
                     'description' => 'Show only the translated FAQs in the current language',
                 ],
             ],
-        ]
+        ],
+        'faqs_by_slug' => [
+            'title' => 'FAQs by category slug',
+            'description' => 'List FAQs filtered by a category slug',
+            'properties' => [
+                'category_filter' => [
+                    'title' => 'Category slug',
+                    'description' => 'Category slug or route parameter (for example {{ :slug }}) used to filter FAQs',
+                ],
+            ],
+        ],
     ],
 
     'models' => [

@@ -82,6 +82,7 @@ class Plugin extends PluginBase
         return [
             'Aic\Faq\Components\Categories' => 'faqCategories',
             'Aic\Faq\Components\Faqs' => 'FAQ',
+            'Aic\Faq\Components\FaqsBySlug' => 'FaqBySlug',
         ];
     }
 

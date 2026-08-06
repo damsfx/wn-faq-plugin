@@ -97,7 +97,17 @@ return [
                     'description' => 'Affichez uniquement les FAQs traduites dans la langue actuelle',
                 ],
             ],
-        ]
+        ],
+        'faqs_by_slug' => [
+            'title' => 'FAQs par slug de catégorie',
+            'description' => 'Liste des FAQs filtrées par slug de catégorie',
+            'properties' => [
+                'category_filter' => [
+                    'title' => 'Slug de catégorie',
+                    'description' => 'Slug de catégorie ou paramètre de route (par exemple {{ :slug }}) utilisé pour filtrer les FAQs',
+                ],
+            ],
+        ],
     ],
 
     'models' => [

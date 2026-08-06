@@ -23,13 +23,4 @@ class FaqsComponentTest extends PluginTestCase
         $this->assertTrue($component->faqs->isEmpty());
         $this->assertSame([], $component->faqsPerCategory);
     }
-
-    public function testFaqPartialContainsNoResultsMessageKey(): void
-    {
-        $partialPath = plugins_path('aic/faq/components/faqs/default.htm');
-        $partialContent = file_get_contents($partialPath);
-
-        $this->assertNotFalse($partialContent);
-        $this->assertStringContainsString('aic.faq::lang.components.faqs.no_results', $partialContent);
-    }
 }

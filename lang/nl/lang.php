@@ -97,7 +97,17 @@ return [
                     'description' => 'Toon enkel de FAQs vertaald in de huidige taal',
                 ],
             ],
-        ]
+        ],
+        'faqs_by_slug' => [
+            'title' => 'FAQs per categorie-slug',
+            'description' => 'Lijst van FAQs gefilterd op categorie-slug',
+            'properties' => [
+                'category_filter' => [
+                    'title' => 'Categorie-slug',
+                    'description' => 'Categorie-slug of routeparameter (bijvoorbeeld {{ :slug }}) om FAQs te filteren',
+                ],
+            ],
+        ],
     ],
 
     'models' => [
