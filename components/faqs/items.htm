@@ -5,7 +5,9 @@
             <h2>{{ categoryName }}</h2>
             <ul>
             {% for faq in faqsInCategory %}
-                {% set question = searchTerm ? faq.question | replace({(searchTerm): '<mark>' ~ searchTerm ~ '</mark>'}) : faq.question %}
+                {% set escapedQuestion = faq.question | e %}
+                {% set escapedSearchTerm = searchTerm | e %}
+                {% set question = searchTerm ? escapedQuestion | replace({(escapedSearchTerm): '<mark>' ~ escapedSearchTerm ~ '</mark>'}) : escapedQuestion %}
                 {% set answer = searchTerm ? faq.answer | replace({(searchTerm): '<mark>' ~ searchTerm ~ '</mark>'}) : faq.answer %}
                 <li>
                     <details>
