@@ -130,8 +130,15 @@ abstract class FaqBaseComponent extends ComponentBase
         }
 
         $groupedFaqs = $this->faqs
-            ->groupBy(fn ($faq) => optional($faq->category)->name ?: Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label'))
-            ->sortBy(fn ($faqsInCategory) => optional($faqsInCategory->first()->category)->sort_order ?: 0);
+            ->groupBy(fn ($faq) => optional($faq->category)->name ?: Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label'));
+
+        $sort = (string) $this->property('sort');
+
+        if (!str_starts_with($sort, 'category_id')) {
+            $groupedFaqs = $groupedFaqs->sortBy(
+                fn ($faqsInCategory) => optional($faqsInCategory->first()->category)->sort_order ?: 0
+            );
+        }
 
         return $groupedFaqs->toArray();
     }

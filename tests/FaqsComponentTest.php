@@ -3,6 +3,8 @@
 namespace Aic\Faq\Tests;
 
 use Aic\Faq\Components\Faqs;
+use Aic\Faq\Models\Categories;
+use Aic\Faq\Models\Faqs as FaqModel;
 use PluginTestCase;
 
 class FaqsComponentTest extends PluginTestCase
@@ -22,5 +24,54 @@ class FaqsComponentTest extends PluginTestCase
 
         $this->assertTrue($component->faqs->isEmpty());
         $this->assertSame([], $component->faqsPerCategory);
+    }
+
+    public function testFaqsPerCategoryPreservesCategoryIdSortOrder(): void
+    {
+        $cat1 = new Categories();
+        $cat1->name = 'Cat Alpha';
+        $cat1->is_published = 1;
+        $cat1->save();
+
+        $cat2 = new Categories();
+        $cat2->name = 'Cat Beta';
+        $cat2->is_published = 1;
+        $cat2->save();
+
+        $faq1 = new FaqModel();
+        $faq1->category_id = $cat1->id;
+        $faq1->question = 'Q1';
+        $faq1->answer = 'A1';
+        $faq1->is_published = 1;
+        $faq1->is_featured = 0;
+        $faq1->save();
+
+        $faq2 = new FaqModel();
+        $faq2->category_id = $cat2->id;
+        $faq2->question = 'Q2';
+        $faq2->answer = 'A2';
+        $faq2->is_published = 1;
+        $faq2->is_featured = 0;
+        $faq2->save();
+
+        $componentDesc = new Faqs(null, [
+            'sort' => 'category_id desc',
+            'isFeatured' => 2,
+            'isTranslated' => false,
+        ]);
+        $componentDesc->onRun();
+
+        $categoriesDesc = array_keys($componentDesc->faqsPerCategory);
+        $this->assertSame(['Cat Beta', 'Cat Alpha'], $categoriesDesc);
+
+        $componentAsc = new Faqs(null, [
+            'sort' => 'category_id asc',
+            'isFeatured' => 2,
+            'isTranslated' => false,
+        ]);
+        $componentAsc->onRun();
+
+        $categoriesAsc = array_keys($componentAsc->faqsPerCategory);
+        $this->assertSame(['Cat Alpha', 'Cat Beta'], $categoriesAsc);
     }
 }
