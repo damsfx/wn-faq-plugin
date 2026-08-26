@@ -158,7 +158,9 @@ class Categories extends ComponentBase
     protected function linkCategories(Collection $categories): Collection
     {
         return $categories->each(function ($category) {
-            $category->setUrl($this->categoryPage, $this->controller);
+            // The synthetic "All" category (id 0) links to the FAQ overview page instead
+            $page = $category->id === 0 ? $this->faqPage : $this->categoryPage;
+            $category->setUrl($page, $this->controller);
         });
     }
 }
