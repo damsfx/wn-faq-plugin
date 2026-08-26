@@ -179,7 +179,7 @@ abstract class FaqBaseComponent extends ComponentBase
             return null;
         }
 
-        $query = Categories::query();
+        $query = Categories::query()->where('is_published', 1);
         $category = new Categories();
 
         if ($category->isClassExtendedWith('Winter.Translate.Behaviors.TranslatableModel')) {
