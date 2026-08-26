@@ -3,8 +3,8 @@
 namespace Aic\Faq;
 
 use Backend\Facades\Backend;
+use Backend\Models\UserRole;
 use Illuminate\Support\Facades\Lang;
-use Winter\User\Models\UserRole;
 use System\Classes\PluginBase;
 
 class Plugin extends PluginBase
