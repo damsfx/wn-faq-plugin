@@ -47,6 +47,10 @@ trait Urlable
      */
     public function getUrl(?CmsPage $page = null): ?string
     {
+        if (!$page) {
+            return null;
+        }
+
         $params = $this->getUrlParams($page);
 
         return CmsPage::url($page->getBaseFileName(), $params);
@@ -57,6 +61,10 @@ trait Urlable
      */
     public function getLocalizedUrl(string $locale, ?CmsPage $page = null): ?string
     {
+        if (!$page) {
+            return null;
+        }
+
         $translator = Translator::instance();
 
         $localRecord = clone $this;
@@ -75,6 +83,10 @@ trait Urlable
      */
     public function getLocalizedUrls(?CmsPage $page = null, bool $absolute = true): array
     {
+        if (!$page) {
+            return [];
+        }
+
         $localizedUrls = [];
         $enabledLocales = class_exists(Locale::class) ? Locale::listEnabled() : [];
 
@@ -82,7 +94,7 @@ trait Urlable
             $url = $this->getLocalizedUrl($locale, $page);
 
             if ($absolute) {
-                $url = Url::to($url);
+                $url = URL::to($url);
             }
 
             $localizedUrls[$locale] = $url;
