@@ -126,11 +126,12 @@ class Categories extends ComponentBase
         $categories = FaqCategories::withCount('faqs')
             ->where('is_published', 1);
 
-        if ($sort = $this->property('sort')) {
+        if (($sort = $this->property('sort')) && in_array($sort, FaqCategories::$allowedSorting, true)) {
             if ($sort === 'random') {
                 $categories = $categories->inRandomOrder();
             } else {
-                $categories = $categories->orderByRaw($sort);
+                [$column, $direction] = explode(' ', $sort, 2);
+                $categories = $categories->orderBy($column, $direction);
             }
         }
 
