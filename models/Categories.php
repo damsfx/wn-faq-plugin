@@ -3,7 +3,6 @@
 namespace Aic\Faq\Models;
 
 use Winter\Storm\Database\Model;
-use Winter\Storm\Support\Str;
 
 class Categories extends Model
 {
@@ -74,11 +73,6 @@ class Categories extends Model
      */
     public function beforeValidate()
     {
-        // Generate a URL slug for this model
-        if (!$this->exists && !$this->slug) {
-            $this->slug = Str::slug($this->name);
-        }
-
         if ($this->sort_order === null) {
             $this->sort_order = static::max('sort_order') + 1;
         }

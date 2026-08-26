@@ -9,6 +9,15 @@ use PluginTestCase;
 
 class FaqsBySlugComponentTest extends PluginTestCase
 {
+    public function testDuplicateCategoryNamesReceiveUniqueSlugs(): void
+    {
+        $firstCategory = $this->createCategory('General');
+        $secondCategory = $this->createCategory('General');
+
+        $this->assertSame('general', $firstCategory->slug);
+        $this->assertSame('general-2', $secondCategory->slug);
+    }
+
     public function testLoadsFaqsForMatchingCategorySlug(): void
     {
         $matchedCategory = $this->createCategory('Getting started');

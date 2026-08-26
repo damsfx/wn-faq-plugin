@@ -1,9 +1,9 @@
 <?php
 
+use Aic\Faq\Models\Categories;
 use Winter\Storm\Database\Schema\Blueprint;
 use Winter\Storm\Database\Updates\Migration;
 use Winter\Storm\Support\Facades\Schema;
-use Winter\Storm\Support\Str;
 
 return new class extends Migration
 {
@@ -18,7 +18,7 @@ return new class extends Migration
     {
         if (!Schema::hasColumn($this->migrationTable, 'slug')) {
             Schema::table($this->migrationTable, function ($table) {
-                $table->string('slug')->after('name')->nullable()->index();
+                $table->string('slug')->after('name')->nullable();
             });
         }
 
@@ -34,15 +34,18 @@ return new class extends Migration
             });
         }
 
-        // generate slugs and sort order for existing categories
-        $categories = \DB::table($this->migrationTable)->whereNull('slug')->get();
+        // Generate unique slugs and sort order for existing categories.
+        $categories = Categories::query()->whereNull('slug')->orderBy('id')->get();
         $sortOrder = 1;
         foreach ($categories as $category) {
-            \DB::table($this->migrationTable)->where('id', $category->id)->update([
-                'slug' => Str::slug($category->name),
-                'sort_order' => $sortOrder++,
-            ]);
+            $category->slugAttributes();
+            $category->sort_order = $sortOrder++;
+            $category->save();
         }
+
+        Schema::table($this->migrationTable, function ($table) {
+            $table->unique('slug');
+        });
     }
 
     /**
