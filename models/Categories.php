@@ -3,6 +3,7 @@
 namespace Aic\Faq\Models;
 
 use Winter\Storm\Database\Model;
+use Winter\Storm\Support\Str;
 
 class Categories extends Model
 {
@@ -45,7 +46,7 @@ class Categories extends Model
         'faqs' => [
             Faqs::class,
             'key' => 'category_id',
-            'order' => 'published_at desc',
+            'order' => 'sort_order desc',
             'scope' => 'isPublished',
         ],
     ];
