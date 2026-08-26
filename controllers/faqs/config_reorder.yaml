@@ -3,13 +3,13 @@
 # ===================================
 
 # Reorder Title
-title: aic.faq::lang.controllers.categories.reorder
+title: aic.faq::lang.controllers.faqs.reorder
 
 # Attribute name
-nameFrom: name
+nameFrom: questionAndCategory
 
 # Model Class name
-modelClass: Aic\Faq\Models\Categories
+modelClass: Aic\Faq\Models\Faqs
 
 # Toolbar widget configuration
 toolbar:

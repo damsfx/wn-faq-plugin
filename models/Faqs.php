@@ -298,4 +298,14 @@ class Faqs extends Model
     {
         return \Aic\Faq\Classes\Enums\FeaturedStatusEnum::namesTranslated();
     }
+
+    /**
+     * Get the question and category name for this record instance
+     */
+    public function getQuestionAndCategoryAttribute(): string
+    {
+        $categoryName = $this->category ? " ({$this->category->name})" : '';
+
+        return $this->question . $categoryName;
+    }
 }

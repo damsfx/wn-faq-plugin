@@ -16,6 +16,7 @@ return [
             'new' => 'New FAQ',
             'create' => 'Create FAQ',
             'update' => 'Update FAQ',
+            'reorder' => 'Reorder FAQs',
             'return_to_faqs' => 'Return to FAQs',
         ],
         'categories' => [

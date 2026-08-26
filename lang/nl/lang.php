@@ -16,6 +16,7 @@ return [
             'new' => 'Nieuwe FAQ',
             'create' => 'Nieuwe FAQ',
             'update' => 'FAQ bijwerken',
+            'reorder' => 'Herschik FAQs',
             'return_to_faqs' => 'Terug naar FAQs',
         ],
         'categories' => [

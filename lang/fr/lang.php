@@ -16,6 +16,7 @@ return [
             'new' => 'Nouvelle FAQ',
             'create' => 'Créer une FAQ',
             'update' => 'Mettre à jour la FAQ',
+            'reorder' => 'Réorganiser les FAQs',
             'return_to_faqs' => 'Retour aux FAQs',
         ],
         'categories' => [
