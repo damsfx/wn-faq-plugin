@@ -129,8 +129,7 @@ abstract class FaqBaseComponent extends ComponentBase
             return [];
         }
 
-        $groupedFaqs = $this->faqs
-            ->groupBy(fn ($faq) => optional($faq->category)->name ?: Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label'));
+        $groupedFaqs = $this->faqs->groupBy(fn ($faq) => $faq->category_id ?: 0);
 
         $sort = (string) $this->property('sort');
 
@@ -140,7 +139,21 @@ abstract class FaqBaseComponent extends ComponentBase
             );
         }
 
-        return $groupedFaqs->toArray();
+        $noCategoryLabel = (string) Lang::get('aic.faq::lang.components.faqs.properties.category.no_category_label');
+        $result = [];
+
+        foreach ($groupedFaqs as $categoryId => $faqsInCategory) {
+            $category = $faqsInCategory->first()->category;
+
+            $result[$categoryId] = [
+                'id'       => $categoryId ?: null,
+                'name'     => optional($category)->name ?: $noCategoryLabel,
+                'category' => $category,
+                'faqs'     => $faqsInCategory,
+            ];
+        }
+
+        return $result;
     }
 
     /**

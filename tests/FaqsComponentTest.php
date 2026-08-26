@@ -61,8 +61,8 @@ class FaqsComponentTest extends PluginTestCase
         ]);
         $componentDesc->onRun();
 
-        $categoriesDesc = array_keys($componentDesc->faqsPerCategory);
-        $this->assertSame(['Cat Beta', 'Cat Alpha'], $categoriesDesc);
+        $categoriesDescNames = array_map(fn ($g) => $groupName = $g['name'], array_values($componentDesc->faqsPerCategory));
+        $this->assertSame(['Cat Beta', 'Cat Alpha'], $categoriesDescNames);
 
         $componentAsc = new Faqs(null, [
             'sort' => 'category_id asc',
@@ -71,7 +71,47 @@ class FaqsComponentTest extends PluginTestCase
         ]);
         $componentAsc->onRun();
 
-        $categoriesAsc = array_keys($componentAsc->faqsPerCategory);
-        $this->assertSame(['Cat Alpha', 'Cat Beta'], $categoriesAsc);
+        $categoriesAscNames = array_map(fn ($g) => $g['name'], array_values($componentAsc->faqsPerCategory));
+        $this->assertSame(['Cat Alpha', 'Cat Beta'], $categoriesAscNames);
+    }
+
+    public function testFaqsPerCategoryGroupsByCategoryIdNotName(): void
+    {
+        $cat1 = new Categories();
+        $cat1->name = 'General';
+        $cat1->is_published = 1;
+        $cat1->save();
+
+        $cat2 = new Categories();
+        $cat2->name = 'General';
+        $cat2->is_published = 1;
+        $cat2->save();
+
+        $faq1 = new FaqModel();
+        $faq1->category_id = $cat1->id;
+        $faq1->question = 'Q1';
+        $faq1->answer = 'A1';
+        $faq1->is_published = 1;
+        $faq1->is_featured = 0;
+        $faq1->save();
+
+        $faq2 = new FaqModel();
+        $faq2->category_id = $cat2->id;
+        $faq2->question = 'Q2';
+        $faq2->answer = 'A2';
+        $faq2->is_published = 1;
+        $faq2->is_featured = 0;
+        $faq2->save();
+
+        $component = new Faqs(null, [
+            'sort' => 'category_id asc',
+            'isFeatured' => 2,
+            'isTranslated' => false,
+        ]);
+        $component->onRun();
+
+        $this->assertCount(2, $component->faqsPerCategory);
+        $this->assertArrayHasKey($cat1->id, $component->faqsPerCategory);
+        $this->assertArrayHasKey($cat2->id, $component->faqsPerCategory);
     }
 }

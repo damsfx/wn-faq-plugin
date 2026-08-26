@@ -1,10 +1,10 @@
 {% set searchTerm = __SELF__.searchQuery %}
 {% if faqsPerCategory | length > 0 %}
-    {% for categoryName, faqsInCategory in faqsPerCategory %}
+    {% for categoryGroup in faqsPerCategory %}
         <div class="faq-category">
-            <h2>{{ categoryName }}</h2>
+            <h2>{{ categoryGroup.name }}</h2>
             <ul>
-            {% for faq in faqsInCategory %}
+            {% for faq in categoryGroup.faqs %}
                 {% set escapedQuestion = faq.question | e %}
                 {% set escapedSearchTerm = searchTerm | e %}
                 {% set question = searchTerm ? escapedQuestion | replace({(escapedSearchTerm): '<mark>' ~ escapedSearchTerm ~ '</mark>'}) : escapedQuestion %}
