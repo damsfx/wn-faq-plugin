@@ -3,6 +3,7 @@
 namespace Aic\Faq\Components;
 
 use Aic\Faq\Classes\FaqBaseComponent;
+use Aic\Faq\Models\Categories;
 use Illuminate\Support\Facades\Event;
 
 class FaqsBySlug extends FaqBaseComponent
@@ -10,7 +11,7 @@ class FaqsBySlug extends FaqBaseComponent
     /**
      * Currently resolved category from slug.
      */
-    public $category = null;
+    public null|Categories $category = null;
 
     /**
      * Register locale param translation for category slugs.
