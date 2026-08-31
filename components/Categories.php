@@ -20,11 +20,6 @@ class Categories extends ComponentBase
     public ?string $categoryPage = '';
 
     /**
-     * Reference to the page name for linking to categories.
-     */
-    public ?string $faqPage = '';
-
-    /**
      * Reference to the current category slug.
      */
     public ?string $currentCategorySlug = '';
@@ -57,12 +52,6 @@ class Categories extends ComponentBase
                 'description' => 'aic.faq::lang.components.categories.properties.sort.description',
                 'type'        => 'dropdown',
                 'default'     => 'sort_order asc',
-            ],
-            'faqPage' => [
-                'title' => 'aic.faq::lang.components.categories.properties.faq_page.title',
-                'description' => 'aic.faq::lang.components.categories.properties.faq_page.description',
-                'type' => 'dropdown',
-                'group' => 'aic.faq::lang.components.categories.properties.links',
             ],
             'categoryPage' => [
                 'title' => 'aic.faq::lang.components.categories.properties.category_page.title',
@@ -112,7 +101,6 @@ class Categories extends ComponentBase
     {
         $this->currentCategorySlug = $this->page['currentCategorySlug'] = $this->property('categorySlug');
         $this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage') ?? $this->page->fileName;
-        $this->faqPage = $this->page['faqPage'] = $this->property('faqPage');
         $this->categories = $this->page['categories'] = $this->loadCategories();
     }
 
@@ -158,9 +146,13 @@ class Categories extends ComponentBase
     protected function linkCategories(Collection $categories): Collection
     {
         return $categories->each(function ($category) {
-            // The synthetic "All" category (id 0) links to the FAQ overview page instead
-            $page = $category->id === 0 ? $this->faqPage : $this->categoryPage;
-            $category->setUrl($page, $this->controller);
+            if ($category->id === 0) {
+                $category->url = $this->controller->pageUrl($this->page->fileName, [], false);
+
+                return;
+            }
+
+            $category->setUrl($this->categoryPage, $this->controller);
         });
     }
 }
