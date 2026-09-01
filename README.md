@@ -53,8 +53,8 @@ sort = "question asc"
 <?php
     function onEnd() {
         // Optional - set the page title to the category name
-        if ($this->category) {
-            $this->page->title = $this->category->name;
+        if ($this->faqCategory) {
+            $this->page->title = $this->faqCategory->name;
         }
     }
 ?>
