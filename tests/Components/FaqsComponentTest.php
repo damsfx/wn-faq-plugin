@@ -1,13 +1,11 @@
 <?php
 
-namespace Aic\Faq\Tests;
+namespace Aic\Faq\Tests\Components;
 
 use Aic\Faq\Components\Faqs;
-use Aic\Faq\Models\Categories;
-use Aic\Faq\Models\Faqs as FaqModel;
-use PluginTestCase;
+use Aic\Faq\Tests\FaqPluginTestCase;
 
-class FaqsComponentTest extends PluginTestCase
+class FaqsComponentTest extends FaqPluginTestCase
 {
     public function testInvalidCategoryIdReturnsNoFaqData(): void
     {
@@ -28,31 +26,11 @@ class FaqsComponentTest extends PluginTestCase
 
     public function testFaqsPerCategoryPreservesCategoryIdSortOrder(): void
     {
-        $cat1 = new Categories();
-        $cat1->name = 'Cat Alpha';
-        $cat1->is_published = 1;
-        $cat1->save();
+        $cat1 = $this->createCategory('Cat Alpha');
+        $cat2 = $this->createCategory('Cat Beta');
 
-        $cat2 = new Categories();
-        $cat2->name = 'Cat Beta';
-        $cat2->is_published = 1;
-        $cat2->save();
-
-        $faq1 = new FaqModel();
-        $faq1->category_id = $cat1->id;
-        $faq1->question = 'Q1';
-        $faq1->answer = 'A1';
-        $faq1->is_published = 1;
-        $faq1->is_featured = 0;
-        $faq1->save();
-
-        $faq2 = new FaqModel();
-        $faq2->category_id = $cat2->id;
-        $faq2->question = 'Q2';
-        $faq2->answer = 'A2';
-        $faq2->is_published = 1;
-        $faq2->is_featured = 0;
-        $faq2->save();
+        $this->createFaq($cat1->id, 1, 0, 'Q1', 'A1');
+        $this->createFaq($cat2->id, 1, 0, 'Q2', 'A2');
 
         $componentDesc = new Faqs(null, [
             'sort' => 'category_id desc',
@@ -77,31 +55,11 @@ class FaqsComponentTest extends PluginTestCase
 
     public function testFaqsPerCategoryGroupsByCategoryIdNotName(): void
     {
-        $cat1 = new Categories();
-        $cat1->name = 'General';
-        $cat1->is_published = 1;
-        $cat1->save();
+        $cat1 = $this->createCategory('General');
+        $cat2 = $this->createCategory('General');
 
-        $cat2 = new Categories();
-        $cat2->name = 'General';
-        $cat2->is_published = 1;
-        $cat2->save();
-
-        $faq1 = new FaqModel();
-        $faq1->category_id = $cat1->id;
-        $faq1->question = 'Q1';
-        $faq1->answer = 'A1';
-        $faq1->is_published = 1;
-        $faq1->is_featured = 0;
-        $faq1->save();
-
-        $faq2 = new FaqModel();
-        $faq2->category_id = $cat2->id;
-        $faq2->question = 'Q2';
-        $faq2->answer = 'A2';
-        $faq2->is_published = 1;
-        $faq2->is_featured = 0;
-        $faq2->save();
+        $this->createFaq($cat1->id, 1, 0, 'Q1', 'A1');
+        $this->createFaq($cat2->id, 1, 0, 'Q2', 'A2');
 
         $component = new Faqs(null, [
             'sort' => 'category_id asc',

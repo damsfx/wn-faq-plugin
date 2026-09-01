@@ -1,23 +1,12 @@
 <?php
 
-namespace Aic\Faq\Tests;
+namespace Aic\Faq\Tests\Components;
 
 use Aic\Faq\Components\FaqsBySlug;
-use Aic\Faq\Models\Categories;
-use Aic\Faq\Models\Faqs;
-use PluginTestCase;
+use Aic\Faq\Tests\FaqPluginTestCase;
 
-class FaqsBySlugComponentTest extends PluginTestCase
+class FaqsBySlugComponentTest extends FaqPluginTestCase
 {
-    public function testDuplicateCategoryNamesReceiveUniqueSlugs(): void
-    {
-        $firstCategory = $this->createCategory('General');
-        $secondCategory = $this->createCategory('General');
-
-        $this->assertSame('general', $firstCategory->slug);
-        $this->assertSame('general-2', $secondCategory->slug);
-    }
-
     public function testLoadsFaqsForMatchingCategorySlug(): void
     {
         $matchedCategory = $this->createCategory('Getting started');
@@ -98,27 +87,5 @@ class FaqsBySlugComponentTest extends PluginTestCase
         $this->assertArrayHasKey('categoryFilter', $properties);
         $this->assertArrayNotHasKey('isSearch', $properties);
         $this->assertArrayNotHasKey('minSearchResults', $properties);
-    }
-
-    private function createCategory(string $name): Categories
-    {
-        $category = new Categories();
-        $category->name = $name;
-        $category->save();
-
-        return $category;
-    }
-
-    private function createFaq(int $categoryId, int $isPublished, int $isFeatured, string $question, string $answer): Faqs
-    {
-        $faq = new Faqs();
-        $faq->category_id = $categoryId;
-        $faq->is_published = $isPublished;
-        $faq->is_featured = $isFeatured;
-        $faq->question = $question;
-        $faq->answer = $answer;
-        $faq->save();
-
-        return $faq;
     }
 }

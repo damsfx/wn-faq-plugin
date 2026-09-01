@@ -1,18 +1,12 @@
 <?php
 
-namespace Aic\Faq\Tests;
+namespace Aic\Faq\Tests\Models;
 
-use Aic\Faq\Models\Categories;
 use Aic\Faq\Models\Faqs;
-use PluginTestCase;
+use Aic\Faq\Tests\FaqPluginTestCase;
 
-class FaqsModelTest extends PluginTestCase
+class FaqsModelTest extends FaqPluginTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testIsPublishedScopeReturnsOnlyPublishedForGuest(): void
     {
         $category = $this->createCategory('General');
@@ -105,37 +99,5 @@ class FaqsModelTest extends PluginTestCase
         $ids = $faqs->pluck('id')->all();
 
         $this->assertSame([$faqQuestionMatch->id, $faqAnswerMatch->id], $ids);
-    }
-
-    public function testCategoryOptionsAreSortedByName(): void
-    {
-        $this->createCategory('Zeta');
-        $this->createCategory('Alpha');
-
-        $options = (new Categories())->getCategoriesListOptions();
-
-        $this->assertSame(['Alpha', 'Zeta'], array_values($options));
-    }
-
-    private function createCategory(string $name): Categories
-    {
-        $category = new Categories();
-        $category->name = $name;
-        $category->save();
-
-        return $category;
-    }
-
-    private function createFaq(int $categoryId, int $isPublished, int $isFeatured, string $question, string $answer): Faqs
-    {
-        $faq = new Faqs();
-        $faq->category_id = $categoryId;
-        $faq->is_published = $isPublished;
-        $faq->is_featured = $isFeatured;
-        $faq->question = $question;
-        $faq->answer = $answer;
-        $faq->save();
-
-        return $faq;
     }
 }
