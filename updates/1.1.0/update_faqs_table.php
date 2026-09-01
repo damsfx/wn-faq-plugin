@@ -21,14 +21,20 @@ return new class extends Migration
             });
         }
 
-        // generate sort order for existing faqs in each category
-        $categories = \DB::table('aic_faq_categories')->get();
-        foreach ($categories as $category) {
+        // Generate sort order for every existing FAQ group, including uncategorized FAQs.
+        $categoryIds = \DB::table($this->migrationTable)
+            ->select('category_id')
+            ->distinct()
+            ->get();
+        foreach ($categoryIds as $category) {
             $sortOrder = 1;
-            $faqs = \DB::table($this->migrationTable)
-                ->where('category_id', $category->id)
-                ->orderBy('id')
-                ->get();
+            $faqsQuery = \DB::table($this->migrationTable);
+            if ($category->category_id === null) {
+                $faqsQuery->whereNull('category_id');
+            } else {
+                $faqsQuery->where('category_id', $category->category_id);
+            }
+            $faqs = $faqsQuery->orderBy('id')->get();
             foreach ($faqs as $faq) {
                 \DB::table($this->migrationTable)->where('id', $faq->id)->update([
                     'sort_order' => $sortOrder++,
