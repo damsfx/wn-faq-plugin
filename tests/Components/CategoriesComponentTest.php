@@ -6,29 +6,25 @@ use Aic\Faq\Tests\FaqPluginTestCase;
 use Cms\Classes\Theme;
 use Cms\Classes\Controller;
 use Winter\Storm\Support\Facades\Config;
-use Winter\Storm\Support\Facades\File;
 use Winter\Storm\Halcyon\Model;
 use System\Helpers\View;
 
 class CategoriesComponentTest extends FaqPluginTestCase
 {
-    protected string $testThemeDir = 'test-faq-categories';
+    protected string $testThemeDir = 'theme';
+    protected string $origThemesPath;
     protected Theme $theme;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        // Copy the plugin's isolated fixture theme into the project's real
-        // themes directory, since Winter resolves theme files via the fixed
-        // themes_path() helper — it cannot be redirected through config.
-        $source = __DIR__ . '/fixtures/theme';
-        $destination = themes_path($this->testThemeDir);
-
-        if (File::isDirectory($destination)) {
-            File::deleteDirectory($destination);
-        }
-        File::copyDirectory($source, $destination);
+        // Redirect on-disk theme resolution to the plugin's isolated fixture
+        // theme, same mechanism Winter's own test suite uses (RegisterWinter
+        // reads cms.themesPathLocal at boot); themes_path() reads from the
+        // 'path.themes' container binding, not from config('cms.themesPath').
+        $this->origThemesPath = app('path.themes');
+        app()->setThemesPath(__DIR__ . '/fixtures');
 
         Config::set('cms.activeTheme', $this->testThemeDir);
         $this->theme = Theme::load($this->testThemeDir);
@@ -43,10 +39,11 @@ class CategoriesComponentTest extends FaqPluginTestCase
 
     public function tearDown(): void
     {
-        // Remove the temporary theme copy
-        File::deleteDirectory(themes_path($this->testThemeDir));
+        // Restore the original themes path
+        app()->setThemesPath($this->origThemesPath);
         parent::tearDown();
     }
+
 
     public function testPublishedCategoriesAreFilteredAndAllCategoryIsAdded(): void
     {
