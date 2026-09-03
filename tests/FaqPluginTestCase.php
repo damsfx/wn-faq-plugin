@@ -23,7 +23,7 @@ abstract class FaqPluginTestCase extends PluginTestCase
     }
 
     protected function createFaq(
-        int $categoryId,
+        ?int $categoryId,
         int $isPublished = 1,
         int $isFeatured = 0,
         string $question = 'Question',

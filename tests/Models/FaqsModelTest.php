@@ -100,4 +100,39 @@ class FaqsModelTest extends FaqPluginTestCase
 
         $this->assertSame([$faqQuestionMatch->id, $faqAnswerMatch->id], $ids);
     }
+
+    public function testListFrontEndExcludesFaqsFromUnpublishedCategory(): void
+    {
+        $publishedCategory = $this->createCategory('Published category', 1);
+        $unpublishedCategory = $this->createCategory('Unpublished category', 0);
+
+        $visibleFaq = $this->createFaq($publishedCategory->id, 1, 0, 'Visible question', 'Visible answer');
+        $this->createFaq($unpublishedCategory->id, 1, 0, 'Hidden by category', 'Hidden answer');
+
+        $ids = Faqs::listFrontEnd([
+            'categoryId' => 0,
+            'isFeatured' => 2,
+            'isSearch' => 0,
+            'isTranslated' => 0,
+        ])->pluck('id')->all();
+
+        $this->assertSame([$visibleFaq->id], $ids);
+    }
+
+    public function testListFrontEndKeepsUncategorizedFaqs(): void
+    {
+        $unpublishedCategory = $this->createCategory('Unpublished category', 0);
+
+        $uncategorizedFaq = $this->createFaq(null, 1, 0, 'Uncategorized question', 'Uncategorized answer');
+        $this->createFaq($unpublishedCategory->id, 1, 0, 'Hidden by category', 'Hidden answer');
+
+        $ids = Faqs::listFrontEnd([
+            'categoryId' => 0,
+            'isFeatured' => 2,
+            'isSearch' => 0,
+            'isTranslated' => 0,
+        ])->pluck('id')->all();
+
+        $this->assertSame([$uncategorizedFaq->id], $ids);
+    }
 }

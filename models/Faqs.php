@@ -255,6 +255,14 @@ class Faqs extends Model
         // set query
         $query->isPublished();
 
+        // Exclude FAQs attached to an unpublished category, keeping uncategorized FAQs
+        $query->where(function (Builder $query) {
+            $query->whereNull('category_id')
+                ->orWhereHas('category', function (Builder $query) {
+                    $query->where('is_published', 1);
+                });
+        });
+
         // Apply featured filter if a specific featured status is selected
         if ($isFeatured !== 2) {
             $query->isFeatured($isFeatured);
