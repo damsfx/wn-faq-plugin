@@ -153,8 +153,8 @@ return [
     ],
 
     'sorting' => [
-        'sort_order_asc'  => 'Sort order tri ↑ (asc)',
-        'sort_order_desc' => 'Sort order tri ↓ (desc)',
+        'sort_order_asc'  => 'Sort order ↑ (asc)',
+        'sort_order_desc' => 'Sort order ↓ (desc)',
         'question_asc'  => 'Question A→Z',
         'question_desc' => 'Question Z→A',
         'name_asc'  => 'Name A→Z',
