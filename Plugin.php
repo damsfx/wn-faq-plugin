@@ -2,6 +2,7 @@
 
 namespace Aic\Faq;
 
+use Aic\Faq\Console\ScaffoldCommand;
 use Backend\Facades\Backend;
 use Backend\Models\UserRole;
 use Illuminate\Support\Facades\Lang;
@@ -110,7 +111,7 @@ class Plugin extends PluginBase
                 ];
 
                 return '<span class="wn-icon-circle '. $class[$value] .'">'.
-                    \Aic\Faq\Classes\Enums\FeaturedStatusEnum::nameTranslated($value)
+                    Lang::get('backend::lang.list.column_switch_'. ($value === 1 ? 'true' : 'false'))
                     .'</span>';
             }
         ];

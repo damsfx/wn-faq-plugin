@@ -18,7 +18,7 @@ class FaqsBySlugComponentTest extends FaqPluginTestCase
         $component = new FaqsBySlug(null, [
             'categoryFilter' => $matchedCategory->slug,
             'sort' => 'question asc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => true,
         ]);
 
@@ -39,7 +39,7 @@ class FaqsBySlugComponentTest extends FaqPluginTestCase
         $component = new FaqsBySlug(null, [
             'categoryFilter' => 'missing-slug',
             'sort' => 'question asc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => true,
         ]);
 
@@ -63,7 +63,7 @@ class FaqsBySlugComponentTest extends FaqPluginTestCase
         $component = new FaqsBySlug(null, [
             'categoryFilter' => '',
             'sort' => 'question asc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => true,
         ]);
 

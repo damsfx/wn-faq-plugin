@@ -12,7 +12,7 @@ class FaqsComponentTest extends FaqPluginTestCase
         $component = new Faqs(null, [
             'sort' => 'category_id asc',
             'categoryId' => 999999,
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => true,
             'isSearch' => true,
             'minSearchResults' => 10,
@@ -34,7 +34,7 @@ class FaqsComponentTest extends FaqPluginTestCase
 
         $componentDesc = new Faqs(null, [
             'sort' => 'category_id desc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => false,
         ]);
         $componentDesc->onRun();
@@ -44,7 +44,7 @@ class FaqsComponentTest extends FaqPluginTestCase
 
         $componentAsc = new Faqs(null, [
             'sort' => 'category_id asc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => false,
         ]);
         $componentAsc->onRun();
@@ -63,7 +63,7 @@ class FaqsComponentTest extends FaqPluginTestCase
 
         $component = new Faqs(null, [
             'sort' => 'category_id asc',
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isTranslated' => false,
         ]);
         $component->onRun();

@@ -15,6 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
+        Schema::table($this->migrationTable, function ($table) {
+            $table->boolean('is_featured')->default(false)->change();
+        });
+
         if (!Schema::hasColumn($this->migrationTable, 'sort_order')) {
             Schema::table($this->migrationTable, function ($table) {
                 $table->integer('sort_order')->after('answer')->default(1)->index();
@@ -50,6 +54,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table($this->migrationTable, function ($table) {
+            $table->integer('is_featured')->default(0)->change();
+        });
+
         foreach (['sort_order'] as $column) {
             if (Schema::hasColumn($this->migrationTable, $column)) {
                 Schema::table($this->migrationTable, function ($table) use ($column) {

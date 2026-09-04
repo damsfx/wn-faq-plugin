@@ -143,7 +143,7 @@ class Faqs extends FaqBaseComponent
         if ($this->searchQuery !== '') {
             $faqsWithoutSearch = Faq::listFrontEnd([
                 'categoryId'   => $this->resolvedCategoryId,
-                'isFeatured'   => (int) $this->property('isFeatured'),
+                'isFeatured'   => $this->getFeaturedFilter(),
                 'isSearch'     => false,
                 'isTranslated' => (bool) $this->property('isTranslated')
             ])->count();

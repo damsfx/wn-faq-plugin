@@ -55,7 +55,7 @@ abstract class FaqBaseComponent extends ComponentBase
                 'title'       => 'aic.faq::lang.components.faqs.properties.featured.title',
                 'description' => 'aic.faq::lang.components.faqs.properties.featured.description',
                 'type'        => 'dropdown',
-                'default'     => 2,
+                'default'     => null,
                 'options'     => 'aic.faq::lang.components.faqs.properties.featured.options',
             ],
             'isTranslated' => [
@@ -95,6 +95,13 @@ abstract class FaqBaseComponent extends ComponentBase
         $this->noFaqsMessage = $this->page['noFaqsMessage'] = (string) $this->property('noFaqsMessage');
     }
 
+    protected function getFeaturedFilter(): ?int
+    {
+        $value = $this->property('isFeatured');
+
+        return $value === null || $value === '' ? null : (int) $value;
+    }
+
     /**
      * Get the FAQs based on common component properties.
      *
@@ -109,7 +116,7 @@ abstract class FaqBaseComponent extends ComponentBase
         $options = array_merge([
             'sort'         => $this->property('sort'),
             'categoryId'   => $this->resolvedCategoryId,
-            'isFeatured'   => (int) $this->property('isFeatured'),
+            'isFeatured'   => $this->getFeaturedFilter(),
             'isSearch'     => false,
             'isTranslated' => (bool) $this->property('isTranslated'),
             'searchQuery'  => '',

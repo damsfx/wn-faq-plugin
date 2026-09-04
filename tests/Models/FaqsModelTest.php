@@ -90,7 +90,7 @@ class FaqsModelTest extends FaqPluginTestCase
 
         $faqs = Faqs::listFrontEnd([
             'categoryId' => 0,
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isSearch' => 1,
             'isTranslated' => 0,
             'searchQuery' => 'Install',
@@ -111,7 +111,7 @@ class FaqsModelTest extends FaqPluginTestCase
 
         $ids = Faqs::listFrontEnd([
             'categoryId' => 0,
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isSearch' => 0,
             'isTranslated' => 0,
         ])->pluck('id')->all();
@@ -128,7 +128,7 @@ class FaqsModelTest extends FaqPluginTestCase
 
         $ids = Faqs::listFrontEnd([
             'categoryId' => 0,
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isSearch' => 0,
             'isTranslated' => 0,
         ])->pluck('id')->all();

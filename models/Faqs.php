@@ -123,7 +123,7 @@ class Faqs extends Model
      * Scope a query to only include featured or not featured FAQs.
      *
      * @param  Builder  $query      QueryBuilder
-     * @param  int      $isFeatured Featured status (0 = not featured, 1 = featured, 2 = all)
+    * @param  int      $isFeatured Featured status (0 = not featured, 1 = featured)
      *
      * @return Builder              QueryBuilder
      */
@@ -245,7 +245,7 @@ class Faqs extends Model
         // merge settings with component default properties
         extract(array_merge([
             'categoryId' => 0,
-            'isFeatured' => 2,
+            'isFeatured' => null,
             'isSearch' => 1,
             'isTranslated' => 1,
             'isPublished' => 1,
@@ -264,7 +264,7 @@ class Faqs extends Model
         });
 
         // Apply featured filter if a specific featured status is selected
-        if ($isFeatured !== 2) {
+        if ($isFeatured !== null) {
             $query->isFeatured($isFeatured);
         }
 

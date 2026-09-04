@@ -73,7 +73,7 @@ return [
                     'options' => [
                         0 => 'All except featured',
                         1 => 'Featured only',
-                        2 => 'All FAQs'
+                        '' => 'All FAQs'
                     ],
                 ],
                 'minSearchResults' => [

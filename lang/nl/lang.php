@@ -73,7 +73,7 @@ return [
                     'options' => [
                         0 => 'Alleen niet-uitgelichte',
                         1 => 'Alleen uitgelichte',
-                        2 => 'Alle FAQs'
+                        '' => 'Alle FAQs'
                     ],
                 ],
                 'minSearchResults' => [
