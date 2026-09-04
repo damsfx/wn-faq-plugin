@@ -26,6 +26,14 @@ class Plugin extends PluginBase
     }
 
     /**
+     * Register method, called when the plugin is first registered.
+     */
+    public function register(): void
+    {
+        $this->registerConsoleCommand('scaffold:aic.faq', ScaffoldCommand::class);
+    }
+
+    /**
      * Register the backend navigation items provided by this plugin
      */
     public function registerNavigation(): array

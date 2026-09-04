@@ -12,6 +12,13 @@ use PluginTestCase;
  */
 abstract class FaqPluginTestCase extends PluginTestCase
 {
+    /**
+     * @var array   Plugins to refresh between tests.
+     */
+    protected $refreshPlugins = [
+        'Aic.Faq',
+    ];
+
     protected function createCategory(string $name, int $isPublished = 1): Categories
     {
         $category = new Categories();
