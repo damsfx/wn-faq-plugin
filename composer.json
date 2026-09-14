@@ -9,6 +9,11 @@
             "name": "AIC BV",
             "email": "info@aic-bv.be",
             "role": "Developer"
+        },
+        {
+            "name": "Damien MATHIEU",
+            "email": "damien@hounddd.fr",
+            "role": "Maintainer"
         }
     ],
     "require": {

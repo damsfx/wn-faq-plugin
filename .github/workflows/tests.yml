@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - add-components
   pull_request:
 
 jobs:
